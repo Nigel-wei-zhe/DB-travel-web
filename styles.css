@@ -207,9 +207,9 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 #home-page .exchange .data-error { color: var(--maple); }
 #home-page .timeline li::before { border-color: var(--home-card-surface); }
 
-/* 全站配色單一來源：米灰底、磚紅、墨綠、咖啡與白色。 */
+/* 全站配色單一來源：方案一米白底、磚紅、墨綠、咖啡與白色。 */
 :root {
-  --paper: #EDE6DD;
+  --paper: #F6F1E9;
   --brick: #8B3A2E;
   --forest: #1F3D33;
   --coffee: #6B4F3B;
