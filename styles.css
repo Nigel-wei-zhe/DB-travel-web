@@ -342,3 +342,70 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 :root { --paper: #fff0b8; background: #efdda0; }
 .date-filters { background: #fff0b8f5; }
 .bottom-nav { background: #fff0c2f5; }
+
+/* 首頁卡片標題：以淺色底塊凸顯標題區。 */
+:root {
+  --home-title-gold: #ffe2a0;
+  --home-title-cream: #fff0cc;
+  --home-title-sage: #dce5c9;
+  --home-title-coffee: #542d18;
+  --home-title-forest: #153d2e;
+  --home-title-radius: 10px;
+}
+#home-page .cover h1 {
+  width: fit-content;
+  max-width: 100%;
+  padding: 4px 14px;
+  border-radius: var(--home-title-radius);
+  background: var(--home-title-gold);
+  color: var(--home-title-coffee);
+  overflow-wrap: anywhere;
+}
+#home-page .card-top {
+  padding: 8px 12px;
+  margin: -2px -4px 12px;
+  border-radius: var(--home-title-radius);
+  background: var(--home-title-cream);
+}
+#home-page .weather .card-top { background: var(--home-title-gold); }
+#home-page .card-top h3 {
+  min-width: 0;
+  font-size: calc(16px * var(--fs, 1));
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+#home-page .card-top h3,
+#home-page .card-top h3 svg,
+#home-page .card-top .yen-icon,
+#home-page .card-top .refresh { color: var(--home-title-coffee); }
+#home-page .card-top h3 svg,
+#home-page .card-top .yen-icon { flex-shrink: 0; }
+#home-page .card-top .yen-icon { border-color: currentColor; }
+#home-page .card-top .refresh { flex-shrink: 0; margin: -2px -4px -2px 0; }
+#home-page .card-top .refresh-halo {
+  fill: var(--home-title-cream);
+  stroke: var(--home-title-coffee);
+}
+#home-page .card-top .refresh:hover { background: var(--home-title-sage); }
+#home-page .card-top .refresh:hover .refresh-halo { fill: var(--home-title-gold); }
+#home-page .itinerary-heading h2 {
+  padding: 8px 12px;
+  border-radius: var(--home-title-radius);
+  background: var(--home-title-sage);
+  color: var(--home-title-forest);
+  font-size: calc(19px * var(--fs, 1));
+}
+#home-page .day-heading {
+  padding: 12px;
+  border-radius: var(--home-title-radius);
+  background: var(--home-title-sage);
+}
+#home-page .day-heading > div:nth-child(2) { min-width: 0; }
+#home-page .day-heading h3 {
+  color: var(--home-title-forest);
+  font-size: calc(16px * var(--fs, 1));
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+#home-page .day-heading p { color: var(--home-title-coffee); }
+#home-page .day-heading .flower { display: none; }
