@@ -10,6 +10,8 @@
 
 ## GitHub Pages
 
+網站網址：[旅日手帖](https://nigel-wei-zhe.github.io/DB-travel-web/)。儲存庫已公開，發布來源為 `dev` 分支根目錄；push 到 `origin/dev` 後由 GitHub Pages 自動部署，部署完成才會更新網站。
+
 網站入口為根目錄的 `index.html`；資源採相對路徑，適用 GitHub Pages 專案子路徑。導覽使用 hash，不依賴伺服器路由。可將根目錄作為 GitHub Pages 發布來源，不需要建置步驟。`dev-server.cjs` 僅供本機開發。
 
 目前旅行行程為示範資料。每日行程頁已接入 JSONL，包含行前檢查表、日期切換與地圖連結；精選店家使用 `data/shops.jsonl` 定義區域群組及店家類型標籤。優惠頁由 `data/coupons.jsonl` 載入圖片，支援放大與開啟原圖；圖檔放在 `assets/coupons/`。首頁天氣與匯率已使用公開 API。字體從 Google Fonts 載入，無網路時使用系統字體。

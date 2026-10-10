@@ -9,8 +9,8 @@
 - `origin`：`Nigel-wei-zhe/DB-travel-web`。沒有 `upstream`，不向 FUKUOKA 原作者開 PR。
 - **開發都在 `dev` 分支**；若尚未存在，從目前 `main` 建立。`main` 保留穩定版本，不直接開發。
 - **小功能先開功能分支**：從 `dev` 開 `feat-<名稱>`（不用 `/`）。push 到 `origin`、確認後再合回 `dev`，避免多個功能互相覆蓋。
-- 每次 push 功能後提供含完整 commit SHA 的手機預覽網址：`https://raw.githack.com/Nigel-wei-zhe/DB-travel-web/<commit sha>/index.html`。目前儲存庫為私人，raw.githack 無法讀取；保持私人時改提供可存取的預覽方式並說明限制，**不要為了預覽擅自公開儲存庫**。githack 只供個人預覽，不當正式網址分享。
-- GitHub Pages 尚未設定，push 不代表網站已部署。將來啟用時採 `dev` 分支根目錄（Deploy from a branch）；實際網址與部署狀態確認後再記錄在 README。
+- 儲存庫已依使用者授權公開。每次 push 功能後提供含完整 commit SHA 的手機預覽網址：`https://raw.githack.com/Nigel-wei-zhe/DB-travel-web/<commit sha>/index.html`。githack 只供個人預覽，不當正式網址分享；若未來改為私人，需改提供可存取的預覽方式，不得擅自再次公開。
+- GitHub Pages 採 `dev` 分支根目錄（Deploy from a branch），網址為 `https://nigel-wei-zhe.github.io/DB-travel-web/`。push 到 `origin/dev` 會觸發部署；需確認部署成功，不能只憑 push 成功判定網站已更新。
 - **合回 `dev` 時更新版本號**：採 `日期.當天第幾次`，例如 `2026.10.10.2`。目前尚無 `APP_VERSION` 與設定頁版本顯示；首次實作版本機制時建立單一版本來源，之後合併均更新，讓使用者能確認版本。
 - **合回 `dev` 後清掉功能分支**：用 `git branch --merged dev` 確認完整合併後，再刪除本機與 `origin` 的對應功能分支，保留 `main`、`dev`。不要刪除他人或尚未合併的工作。
 - 發布穩定版本前先確認 `main` 最新狀態，在 `dev` 解決衝突並驗證，再同步至 `main`。
