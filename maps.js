@@ -73,6 +73,7 @@
   }
   function render() {
     if (!journey || !active()) return;
+    if (window.TripVisits) TripVisits.configure(journey);
     initMap();
     map.invalidateSize();
     const date = chosenDate();
@@ -100,6 +101,7 @@
       const label = `${item.date.slice(5).replace('-', '/')} ${item.time || '彈性'} · ${names[item.category] || '其他'}`;
       if (item.coordinates) {
         const pin = el('span', `map-pin pin-${item.category || 'other'}`, String(index + 1));
+        if (window.TripVisits?.has(item.id)) pin.className += ' is-visited';
         const marker = L.marker([item.coordinates.latitude, item.coordinates.longitude], {
           title: item.title, alt: item.title,
           icon: L.divIcon({ className: 'map-pin-wrap', html: pin, iconSize: [44, 44], iconAnchor: [22, 44] })
@@ -115,6 +117,7 @@
       }
       const row = el('article', 'map-place card');
       row.append(el('p', 'map-meta', label), el('h3', '', item.title));
+      if (window.TripVisits?.has(item.id)) row.append(el('p', 'map-meta visit-label', '已蓋章'));
       const actions = el('div', 'map-place-actions');
       if (item.coordinates) {
         const button = el('button', '', '看圖釘');

@@ -397,3 +397,26 @@ svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; 
 .travel-map { scroll-margin-top: 110px; }
 .map-place-actions .stop-map, .map-popup .stop-map { min-height: 44px; padding: 8px 12px; display: inline-flex; align-items: center; gap: 8px; font-size: calc(15px * var(--fs, 1)); color: var(--forest); border: 1px solid var(--forest); border-radius: 12px; text-decoration: none; }
 .map-place-actions .stop-map svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+
+
+/* 可取消的行程蓋章：酷洛米與楓葉髮飾。 */
+:root { --stamp-hood: #302C35; --stamp-pink: #DF8CAA; }
+.stop-card.is-visited { border-color: var(--maple-yellow); }
+.stop-actions { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 12px; }
+.stop-actions > .stop-map { font-size: calc(15px * var(--fs, 1)); min-height: 44px; }
+.stamp-button { width: 104px; min-height: 128px; padding: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 1px dashed var(--coffee); border-radius: 16px; color: var(--coffee); background: var(--surface); cursor: pointer; font: inherit; font-size: calc(15px * var(--fs, 1)); }
+.stamp-button > svg { width: 32px; height: 32px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.stamp-button[aria-pressed="true"] { border-color: var(--maple-yellow); background: var(--surface); color: var(--forest); }
+.stamp-button[aria-pressed="true"] > svg { width: 88px; height: 88px; stroke: none; }
+.stamp-button:focus-visible { outline: 3px solid var(--forest); outline-offset: 3px; }
+.stamp-button.just-stamped > svg { animation: stamp-press .25s ease-out; }
+.visit-progress { width: fit-content; padding: 8px 12px; background: var(--maple-soft); color: var(--forest); border-radius: 12px; font-size: calc(15px * var(--fs, 1)); }
+.visit-storage-note { color: var(--coffee); font-size: calc(15px * var(--fs, 1)); line-height: 1.6; }
+.visit-label { color: var(--forest); }
+.map-pin.is-visited { outline: 3px dashed var(--maple-yellow); outline-offset: 2px; }
+@keyframes stamp-press { from { transform: scale(1.2) rotate(-12deg); opacity: .3; } to { transform: scale(1) rotate(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .stamp-button.just-stamped > svg { animation: none; } }
+
+.stop-card h3 { font-size: calc(18px * var(--fs, 1)); }
+.stop-card p { font-size: calc(15px * var(--fs, 1)); line-height: 1.7; }
+.day-stop > time, .journey-intro { font-size: calc(15px * var(--fs, 1)); }

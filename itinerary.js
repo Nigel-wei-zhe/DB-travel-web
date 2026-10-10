@@ -84,6 +84,15 @@
       content.append(el('div', 'journey-empty card', '當日尚無行程。'));
       return;
     }
+    const visitedProgress = el('p', 'visit-progress');
+    visitedProgress.setAttribute('role', 'status');
+    const visitNote = el('p', 'visit-storage-note');
+    const updateProgress = () => {
+      visitedProgress.textContent = `已蓋章 ${day.items.filter(item => TripVisits.has(item.id)).length} / ${day.items.length}`;
+      visitNote.textContent = TripVisits.persistent ? '蓋章紀錄保存在這台裝置。' : '此瀏覽器無法保存蓋章紀錄，重新整理後可能遺失。';
+    };
+    updateProgress();
+    content.append(visitedProgress);
     const list = el('ol', 'day-timeline');
     for (const item of day.items) {
       const row = el('li', 'day-stop');
@@ -92,6 +101,27 @@
       if (item.category) card.append(el('span', 'stop-category', categoryNames[item.category]));
       card.append(el('h3', '', item.title));
       if (item.note) card.append(el('p', '', item.note));
+      const actions = el('div', 'stop-actions');
+      const stamp = el('button', 'stamp-button');
+      stamp.type = 'button';
+      const updateStamp = () => {
+        const done = TripVisits.has(item.id);
+        stamp.setAttribute('aria-pressed', String(done));
+        stamp.setAttribute('aria-label', `${done ? '取消' : ''}${item.title}的蓋章`);
+        stamp.replaceChildren(HandDrawnIcons.create(done ? 'kuromi-stamp' : 'stamp-hand'), el('span', '', done ? '取消蓋章' : '蓋章'));
+        card.classList.toggle('is-visited', done);
+      };
+      updateStamp();
+      stamp.addEventListener('click', () => {
+        const done = TripVisits.toggle(item.id);
+        updateStamp();
+        updateProgress();
+        stamp.classList.remove('just-stamped');
+        if (done) {
+          stamp.classList.add('just-stamped');
+          setTimeout(() => stamp.classList.remove('just-stamped'), 350);
+        }
+      });
       if (item.mapQuery || item.coordinates) {
         const map = el('a', 'stop-map', '查看地圖');
         map.append(HandDrawnIcons.create('pin'));
@@ -104,12 +134,14 @@
           map.removeAttribute('target');
           map.setAttribute('aria-label', `在網站地圖查看${item.title}`);
         }
-        card.append(map);
+        actions.append(map);
       }
+      actions.append(stamp);
+      card.append(actions);
       row.append(card);
       list.append(row);
     }
-    content.append(list);
+    content.append(list, visitNote);
   }
   function renderSelection() {
     if (!journey) return;
@@ -143,6 +175,7 @@
     checklistError = checkResult.status === 'rejected' ? `檢查表載入失敗：${checkResult.reason.message} 請重新整理頁面重試。` : '';
     checklist = checkResult.status === 'fulfilled' ? checkResult.value : [];
     loadChecks();
+    TripVisits.configure(journey);
     const monthFormat = new Intl.DateTimeFormat('en-US', { month: 'short', timeZone: 'UTC' });
     const entries = [{ date: 'pretrip', label: '行前' }, ...journey.days.map((day, i) => ({ date: day.date, month: monthFormat.format(new Date(day.date)), label: String(Number(day.date.slice(8))), subtitle: `Day ${i + 1}` }))];
     for (const entry of entries) {
