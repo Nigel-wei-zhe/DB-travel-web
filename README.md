@@ -2,6 +2,8 @@
 
 手機優先的旅行網站首頁原型，使用 HTML、CSS 與原生 JavaScript。
 
+開發前請閱讀 [開發規範](AGENTS.md)；修改畫面前另讀 [視覺與操作規範](DESIGN.md)。規範沿用 FUKUOKA 的開發與長輩友善原則，並依本專案的 JSONL 與分檔結構調整。
+
 ## 本地預覽
 
 執行 `node dev-server.cjs`，開啟 http://127.0.0.1:5173 。無須安裝套件。
