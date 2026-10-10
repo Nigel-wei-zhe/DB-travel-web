@@ -15,13 +15,14 @@ document.querySelector('#swap').addEventListener('click', () => {
   document.querySelector('#to-label').innerHTML = reversed ? '日圓 <b>JPY</b>' : '台幣 <b>TWD</b>';
   convert();
 });
-const titles = { itinerary: '每日行程', shopping: '精選店家', offers: '優惠' };
+const titles = { itinerary: '每日行程', shopping: '精選店家', offers: '優惠', map: '地圖' };
 function navigate() {
   const route = location.hash.slice(1).split('/')[0];
   const page = Object.hasOwn(titles, route) ? route : 'home';
   document.querySelector('#home-page').hidden = page !== 'home';
   document.querySelector('#itinerary-page').hidden = page !== 'itinerary';
   document.querySelector('#shops-page').hidden = page !== 'shopping';
+  document.querySelector('#map-page').hidden = page !== 'map';
   document.querySelector('#offers-page').hidden = page !== 'offers';
   document.querySelectorAll('.bottom-nav a').forEach(link => {
     if (link.dataset.page === page) link.setAttribute('aria-current', 'page');
@@ -153,7 +154,6 @@ async function initializeHome() {
     const { trip, days } = TripData.parseItinerary(await response.text());
     const destination = trip.destination || { ...days[0].location, country: '' };
     document.querySelector('#trip-title').textContent = trip.title;
-    document.querySelector('#trip-subtitle').textContent = trip.subtitle || '';
     document.querySelector('#trip-place').textContent = [destination.name, destination.country].filter(Boolean).join('・');
     const first = days[0].date;
     const last = days[days.length - 1].date;

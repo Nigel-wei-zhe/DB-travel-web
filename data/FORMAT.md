@@ -11,7 +11,7 @@
 | trip | type=`trip`、id、title、timezone、currency | destination、subtitle |
 | day | type=`day`、date、title、location、items | — |
 | location | name、latitude、longitude | — |
-| items 中的項目 | id、title | time、category、note、mapQuery |
+| items 中的項目 | id、title | time、category、note、mapQuery、coordinates |
 
 - `trip.id`：穩定且唯一的旅行 ID，不同旅行請更換。
 - `timezone`：IANA 時區，例如 `Asia/Tokyo`，用來判斷當地今天與預設頁籤。
@@ -60,3 +60,9 @@
 「行前」由程式加入，不要建立假的行程日期。出發前預設行前，旅行中選當地日期對應的行程，旅行結束後選最後一天。若日期不連續，選最近一個已開始的行程日。
 
 可直接開啟 `#itinerary/pretrip` 或 `#itinerary/2026-11-12`；頁籤切換支援瀏覽器上一頁。資料全部以文字建立 DOM，不將資料內容當作 HTML 執行。公開 JSONL 請勿放入護照、訂房代碼、私人聯絡資訊或其他秘密。
+
+## 行程地圖座標
+
+每個行程項目可填 `coordinates: {"latitude":35.7101,"longitude":139.8107}`；緯度必須在 -90～90、經度在 -180～180，均為有限數字。只有已設定座標的項目顯示圖釘，未設定時仍保留在地圖清單，不使用當日城市座標代替地點。地圖支援 `#map`、`#map/YYYY-MM-DD` 與 `#map/YYYY-MM-DD/項目ID`；圖釘資訊與導航沿用項目名稱、時間、分類、備註與 `mapQuery`。
+
+目前補入的東京示範座標為地標或區域代表點，餐飲與購物項目並非指定店家；來源為 Wikipedia 各地標條目的座標（Narita International Airport、Kaminarimon、Tokyo Skytree、Meiji Shrine、Omotesandō、Shibuya Station、Ueno Park）。未新增或變更原行程 ID、時間與內容。

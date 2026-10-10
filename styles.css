@@ -362,3 +362,38 @@ svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; 
 .shop-tag:nth-child(3n) { background: var(--maple-yellow); color: var(--forest); border-color: var(--maple-yellow); }
 .shop-group-heading h2 { text-decoration: underline; text-decoration-color: var(--maple-yellow); text-decoration-thickness: 3px; text-underline-offset: 6px; }
 .coupon-card { border-top-color: var(--maple-yellow); }
+
+/* 地圖分頁與五欄導航。 */
+.bottom-nav { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.bottom-nav a { min-width: 0; padding-inline: 0; }
+#map-page > h2 { color: var(--forest); margin: 0 0 16px; font-size: calc(26px * var(--fs, 1)); }
+.map-summary { font-size: calc(15px * var(--fs, 1)); color: var(--coffee); line-height: 1.6; }
+.map-tools, .map-place-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.map-tools button, .map-place-actions button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--forest); border-radius: 12px; background: var(--surface); color: var(--forest); font: inherit; font-size: calc(15px * var(--fs, 1)); cursor: pointer; }
+.map-tools button { display: inline-flex; align-items: center; gap: 8px; }
+.map-tools button[hidden] { display: none; }
+.map-tools button:disabled { opacity: .5; cursor: default; }
+.map-tools svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.travel-map { height: min(58dvh, 480px); min-height: 320px; border: 2px solid var(--maple-yellow); border-radius: 16px; z-index: 0; background: var(--paper); }
+.map-places { display: grid; gap: 12px; margin-top: 16px; }
+.map-place { padding: 16px; }
+.map-place h3 { margin: 6px 0 12px; font-size: calc(18px * var(--fs, 1)); }
+.map-meta { color: var(--coffee); font-size: calc(15px * var(--fs, 1)); line-height: 1.6; margin: 0; }
+.map-pin { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 48% 48% 45% 8%; transform: rotate(-6deg); background: var(--forest); color: var(--surface); border: 2px solid var(--surface); box-shadow: 0 2px 5px color-mix(in srgb, var(--coffee) 30%, transparent); font: bold 17px sans-serif; }
+.pin-food { background: var(--brick); }
+.pin-stay, .pin-other { background: var(--coffee); }
+.pin-shopping { background: var(--maple-yellow); color: var(--forest); }
+.travel-map .leaflet-bar a { width: 44px; height: 44px; line-height: 44px; background: var(--surface); color: var(--forest); }
+.travel-map .leaflet-popup-close-button { width: 44px; height: 44px; line-height: 44px; font-size: 26px; color: var(--forest); }
+.travel-map .leaflet-popup-content-wrapper { background: var(--surface); color: var(--ink); }
+.travel-map .leaflet-popup-content { margin: 20px; }
+.map-popup { padding-top: 12px; font-size: calc(15px * var(--fs, 1)); line-height: 1.6; }
+.map-popup h3 { margin: 8px 0; font-size: calc(18px * var(--fs, 1)); color: var(--forest); }
+.map-popup .stop-map { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; color: var(--forest); }
+.map-popup svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.travel-map .leaflet-control-attribution { background: var(--surface); color: var(--ink); }
+.travel-map .leaflet-control-attribution a { color: var(--forest); }
+
+.travel-map { scroll-margin-top: 110px; }
+.map-place-actions .stop-map, .map-popup .stop-map { min-height: 44px; padding: 8px 12px; display: inline-flex; align-items: center; gap: 8px; font-size: calc(15px * var(--fs, 1)); color: var(--forest); border: 1px solid var(--forest); border-radius: 12px; text-decoration: none; }
+.map-place-actions .stop-map svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.7; }

@@ -20,7 +20,7 @@
 
 替換 `data/itinerary.jsonl` 與 `data/checklist.jsonl` 後重新整理即可。欄位與規則詳見 [資料格式](data/FORMAT.md)。檢查表勾選保存在當前裝置，依旅行 ID 分開。首頁目的地、標題、副標題、日期與天氣讀取 trip 設定。目前主視覺為福岡秋日旅行，既有東京行程與虛構店家仍保留為示範，尚未替換為福岡行程。旅行與項目 ID 保留以延用本機紀錄。
 
-驗證：`node --test --test-isolation=none app.test.cjs trip-data.test.cjs`。
+驗證：`node --test --test-isolation=none app.test.cjs trip-data.test.cjs maps.test.cjs`。
 
 ## 首頁資料來源
 
@@ -44,3 +44,7 @@
 
 
 全站圖示採自繪日式手繪 SVG，集中於 index.html 的 symbol；icons.js 提供動態頁面共用的圖示建立函式，並已加入本機伺服器資源清單。
+
+底部導航列新增「地圖」，參考 [FUKUOKA 地圖功能](https://github.com/Nigel-wei-zhe/FUKUOKA/blob/48a8a68c1aadcc3871210edbeff0b790e400f1ba/index.html)，在本專案重新整合日期篩選、地點圖釘、資訊與 Google 地圖導航。`maps.js` 從既有行程 JSONL 讀取地點；資料格式見 `data/FORMAT.md`。底圖為 OpenStreetMap，需要網路；載入失敗提供重試，地點清單仍可使用導航。現有行程是東京示範資料，尚未換成福岡實際行程。
+
+Leaflet 1.9.4 放在 `vendor/leaflet/`，採 BSD-2-Clause，授權檔同目錄；不透過 CDN 載入程式。底圖保留 OpenStreetMap 來源標示。首頁移除自動生成的標語，`AGENTS.md` 與 `DESIGN.md` 已加入不產生標語的規範。

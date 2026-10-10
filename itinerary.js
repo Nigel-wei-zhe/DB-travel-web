@@ -92,13 +92,18 @@
       if (item.category) card.append(el('span', 'stop-category', categoryNames[item.category]));
       card.append(el('h3', '', item.title));
       if (item.note) card.append(el('p', '', item.note));
-      if (item.mapQuery) {
+      if (item.mapQuery || item.coordinates) {
         const map = el('a', 'stop-map', '查看地圖');
         map.append(HandDrawnIcons.create('pin'));
         map.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
         map.target = '_blank';
         map.rel = 'noopener noreferrer';
         map.setAttribute('aria-label', `在 Google 地圖查看${item.title}`);
+        if (item.coordinates) {
+          map.href = `#map/${day.date}/${encodeURIComponent(item.id)}`;
+          map.removeAttribute('target');
+          map.setAttribute('aria-label', `在網站地圖查看${item.title}`);
+        }
         card.append(map);
       }
       row.append(card);

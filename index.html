@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#F8F3EB">
   <title>旅日手帖 · 小小旅行日記</title>
+  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="map-hand" viewBox="0 0 24 24"><path d="m3 5 5-2 8 3 5-2-.2 15-5 2-8-3-5 2L3 5Zm5-2-.2 15M16 6l-.2 15M5 10l1 .5m5-2 2 1m4 5 2-1"/><path d="M11 12q-3-4 0-5 3-1 3 2 0 1-3 3Z"/></symbol>
     <symbol id="home" viewBox="0 0 24 24"><path d="M2.8 11.4Q7.3 6.8 12 3.2q4.8 4.2 9.1 8.5M5.1 10.3l-.2 10q3.2.6 5.2.1l.1-6.1 4 .2-.1 6 5.2-.3-.2-9.7"/><path d="m7.5 7.8 4.4-3.5 4.3 3.8M7.4 12.5l.1 2m9-2-.1 2" opacity=".45"/></symbol>
     <symbol id="calendar" viewBox="0 0 24 24"><path d="M6.4 5.2q5.6-.6 12.1.1 2 .3 1.8 3.1l-.4 11q-.1 2-3 1.8L5.6 21q-2-.1-1.9-2.6L4 7.7q0-2.5 2.4-2.5ZM8 3l-.1 4.8m8.3-4.5-.2 4.3M4.1 10.9q7.2-.6 15.8.3M7.5 14.8l2.4.1m3.5 0 2.7-.2M7.5 17.8h2.4m3.6-.1 2.4.2"/></symbol>
     <symbol id="bag" viewBox="0 0 24 24"><path d="m5.2 8.8 13.4-.4 1.1 12q-7 1.1-15.6-.2L5.2 8.8Zm3 .2q-.8-6 3.8-6.1 4.8.2 3.8 6M7 18.3l2.4.2"/></symbol>
@@ -40,7 +42,7 @@
       <div id="home-page" class="page">
         <section class="cover" aria-labelledby="trip-title">
           <div class="cover-heading"><span class="stamp">日本<br><small>JAPAN</small></span></div>
-          <p class="cover-kicker" aria-hidden="true">AUTUMN JOURNAL</p><h1 id="trip-title">旅行手帖</h1><p id="trip-subtitle" class="cover-subtitle"></p>
+          <h1 id="trip-title">旅行手帖</h1>
           <div class="trip-meta"><span><svg><use href="#pin"/></svg><span id="trip-place">正在讀取目的地…</span></span><span id="trip-dates"></span></div>
           <svg class="cover-art fukuoka-art" viewBox="0 0 440 245" role="img" aria-labelledby="fukuoka-art-title fukuoka-art-desc">
             <title id="fukuoka-art-title">福岡的秋日小旅行</title>
@@ -124,7 +126,7 @@
             </g>
             <path d="M10 132C-3 72 47 13 109 28c62-41 118-7 156 0 70-25 143 9 161 72 13 54-37 102-88 104H81c-39-4-67-27-71-72Z" fill="url(#journal-grain)"/>
           </svg>
-          <div class="cover-foot"><span>慢慢走，好好收藏。</span><span id="trip-duration"></span></div>
+          <div class="cover-foot"><span id="trip-duration"></span></div>
         </section>
         <section class="weather card" aria-labelledby="weather-title">
           <div class="card-top"><h3 id="weather-title"><svg><use href="#pin"/></svg><span id="weather-place">目的地天氣</span></h3><button class="refresh" id="weather-refresh" type="button" aria-label="重新整理天氣" title="重新整理天氣"><svg aria-hidden="true"><use href="#refresh"/></svg></button></div>
@@ -150,9 +152,18 @@
         <div id="itinerary-content" class="journey-content">正在載入行程…</div>
       </section>
       <section id="shops-page" class="page" aria-label="精選店家" hidden><div id="shops-content">正在載入店家…</div></section>
+      <section id="map-page" class="page" aria-label="地圖" hidden>
+        <h2>地圖</h2>
+        <div id="map-days" class="date-filters" role="group" aria-label="選擇地圖日期"></div>
+        <p id="map-summary" class="map-summary" role="status">正在載入地點…</p>
+        <div class="map-tools"><button id="map-fit" type="button"><svg aria-hidden="true"><use href="#map-hand"/></svg>顯示全部圖釘</button><button id="map-retry" type="button" hidden>重新載入地圖</button></div>
+        <p id="map-status" class="data-note" role="status"></p>
+        <div id="travel-map" class="travel-map" role="region" aria-label="行程地點地圖"></div>
+        <div id="map-places" class="map-places"></div>
+      </section>
       <section id="offers-page" class="page" aria-label="優惠券" hidden><div id="coupons-content">正在載入優惠券…</div></section>
     </main>
-    <nav class="bottom-nav" aria-label="主要導航"><a href="#home" data-page="home" aria-current="page"><svg><use href="#home"/></svg><span>首頁</span></a><a href="#itinerary" data-page="itinerary"><svg><use href="#calendar"/></svg><span>每日行程</span></a><a href="#shopping" data-page="shopping"><svg><use href="#store"/></svg><span>精選店家</span></a><a href="#offers" data-page="offers"><svg><use href="#ticket"/></svg><span>優惠</span></a></nav>
+    <nav class="bottom-nav" aria-label="主要導航"><a href="#home" data-page="home" aria-current="page"><svg><use href="#home"/></svg><span>首頁</span></a><a href="#itinerary" data-page="itinerary"><svg><use href="#calendar"/></svg><span>每日行程</span></a><a href="#shopping" data-page="shopping"><svg><use href="#store"/></svg><span>精選店家</span></a><a href="#map" data-page="map"><svg><use href="#map-hand"/></svg><span>地圖</span></a><a href="#offers" data-page="offers"><svg><use href="#ticket"/></svg><span>優惠</span></a></nav>
   </div>
   <dialog id="coupon-viewer" class="coupon-viewer" aria-labelledby="coupon-viewer-title"><header><h2 id="coupon-viewer-title">優惠券</h2><button type="button" id="coupon-close" aria-label="關閉優惠券"><svg aria-hidden="true"><use href="#close-hand"/></svg></button></header><div class="coupon-image-scroll"><img id="coupon-full-image" alt=""></div><a id="coupon-original" target="_blank" rel="noopener noreferrer">開啟原圖 <svg aria-hidden="true"><use href="#arrow"/></svg></a></dialog>
   <script src="./icons.js"></script>
@@ -161,5 +172,7 @@
   <script src="./itinerary.js"></script>
   <script src="./shops.js"></script>
   <script src="./coupons.js"></script>
+  <script src="./vendor/leaflet/leaflet.js"></script>
+  <script src="./maps.js"></script>
 </body>
 </html>

@@ -36,6 +36,7 @@
       if (!place || !text(place.name) || !Number.isFinite(place.latitude) || Math.abs(place.latitude) > 90 || !Number.isFinite(place.longitude) || Math.abs(place.longitude) > 180) throw Error(`${day.date} 的城市座標無效`);
       for (const item of day.items) {
         if (!item || !text(item.id) || !text(item.title) || !['note', 'mapQuery'].every(key => optional(item, key)) || (item.time !== undefined && !/^([01]\d|2[0-3]):[0-5]\d$/.test(item.time)) || (item.category !== undefined && !categories.includes(item.category))) throw Error(`${day.date} 有無效的行程項目`);
+        if (item.coordinates !== undefined && (!item.coordinates || !Number.isFinite(item.coordinates.latitude) || Math.abs(item.coordinates.latitude) > 90 || !Number.isFinite(item.coordinates.longitude) || Math.abs(item.coordinates.longitude) > 180)) throw Error('行程地點座標無效');
         if (ids.has(item.id)) throw Error(`行程 ID 重複：${item.id}`);
         ids.add(item.id);
       }

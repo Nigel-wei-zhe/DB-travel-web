@@ -9,7 +9,7 @@ http.createServer((req, res) => {
   const target = path.resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
   const relative = path.relative(root, target);
   const allowed = ['index.html', 'styles.css', 'app.js', 'icons.js', 'trip-data.js', 'itinerary.js', 'shops.js', path.join('data', 'itinerary.jsonl'), path.join('data', 'checklist.jsonl'), path.join('data', 'shops.jsonl')];
-  allowed.push('coupons.js', path.join('data', 'coupons.jsonl'));
+  allowed.push('maps.js', path.join('vendor', 'leaflet', 'leaflet.js'), path.join('vendor', 'leaflet', 'leaflet.css'), 'coupons.js', path.join('data', 'coupons.jsonl'));
   const couponImage = path.dirname(relative) === path.join('assets', 'coupons') && ['.svg', '.png', '.jpg', '.jpeg', '.webp', '.gif'].includes(path.extname(relative).toLowerCase());
   if (relative.startsWith('..') || path.isAbsolute(relative) || (!allowed.includes(relative) && !couponImage)) { res.writeHead(404); return res.end('Not found'); }
   fs.readFile(target, (error, data) => {

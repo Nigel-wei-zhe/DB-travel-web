@@ -63,3 +63,16 @@ test('destination coordinates and optional subtitle are validated', () => {
   assert.throws(() => parseItinerary(itinerary.replace('130.4017', '230.4017')), /目的地/);
   assert.throws(() => parseItinerary(itinerary.replace('"country":"日本"', '"country":""')), /目的地/);
 });
+
+test('itinerary map coordinates accept zero and reject missing or out-of-range values', () => {
+  const source = fs.readFileSync('data/itinerary.jsonl', 'utf8');
+  const records = source.trim().split(/\r?\n/).map(JSON.parse);
+  const item = records[1].items[0];
+  const encode = () => records.map(row => JSON.stringify(row)).join('\n');
+  item.coordinates = { latitude: 0, longitude: 0 };
+  assert.doesNotThrow(() => parseItinerary(encode()));
+  for (const value of [null, {}, { latitude: 91, longitude: 0 }, { latitude: 0, longitude: -181 }, { latitude: '35', longitude: 139 }]) {
+    item.coordinates = value;
+    assert.throws(() => parseItinerary(encode()), /座標/);
+  }
+});

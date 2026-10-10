@@ -117,3 +117,13 @@ test('destination loading failure can retry without fetching weather for the wro
   assert.equal(node('#weather-place').textContent, '福岡的天氣');
   assert.equal(node('#weather-temp').textContent, 18);
 });
+
+test('map hash shows its page and returning home hides it', async () => {
+  const { context, node } = await setup();
+  vm.runInContext("location.hash = '#map/2026-11-12'; navigate();", context);
+  assert.equal(node('#map-page').hidden, false);
+  assert.equal(node('#home-page').hidden, true);
+  vm.runInContext("location.hash = '#home'; navigate();", context);
+  assert.equal(node('#map-page').hidden, true);
+  assert.equal(node('#home-page').hidden, false);
+});
