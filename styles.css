@@ -407,14 +407,14 @@ svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; 
 .stamp-button { position: absolute; top: 8px; right: 8px; width: 56px; height: 56px; min-height: 44px; padding: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; border: 1.5px dashed var(--coffee); border-radius: 50%; color: var(--coffee); background: var(--surface); cursor: pointer; font: inherit; font-size: calc(15px * var(--fs, 1)); }
 .stamp-button > svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .stamp-button[aria-pressed="true"] { border-color: transparent; background: var(--surface); color: var(--forest); }
-.stamp-button > .stamp-art { width: 52px; height: 52px; object-fit: contain; display: block; }
+.stamp-button > .stamp-art { width: 52px; height: 52px; object-fit: contain; display: block; transform: rotate(15deg); transform-origin: center; }
 .stamp-button:focus-visible { outline: 3px solid var(--forest); outline-offset: 3px; }
 .stamp-button.just-stamped > .stamp-art { animation: stamp-press .25s ease-out; }
 .visit-progress { width: fit-content; padding: 8px 12px; background: var(--maple-soft); color: var(--forest); border-radius: 12px; font-size: calc(15px * var(--fs, 1)); }
 .visit-storage-note { color: var(--coffee); font-size: calc(15px * var(--fs, 1)); line-height: 1.6; }
 .visit-label { color: var(--forest); }
 .map-pin.is-visited { outline: 3px dashed var(--maple-yellow); outline-offset: 2px; }
-@keyframes stamp-press { from { transform: scale(1.2) rotate(-12deg); opacity: .3; } to { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes stamp-press { from { transform: scale(1.2) rotate(3deg); opacity: .3; } to { transform: scale(1) rotate(15deg); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .stamp-button.just-stamped > .stamp-art { animation: none; } }
 
 .stop-card h3 { font-size: calc(18px * var(--fs, 1)); }
