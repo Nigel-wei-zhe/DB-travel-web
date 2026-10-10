@@ -21,6 +21,11 @@
     const trip = records[0];
     if (!trip || trip.type !== 'trip' || !['id', 'title', 'timezone', 'currency'].every(key => text(trip[key])) || !/^[A-Z]{3}$/.test(trip.currency)) throw Error('行程檔第一行必須是完整的 trip 資料');
     try { new Intl.DateTimeFormat('en', { timeZone: trip.timezone }); } catch { throw Error('旅行時區無效'); }
+    if (trip.subtitle !== undefined && !text(trip.subtitle)) throw Error('旅行副標題無效');
+    if (trip.destination !== undefined) {
+      const place = trip.destination;
+      if (!place || !text(place.name) || !text(place.country) || !Number.isFinite(place.latitude) || Math.abs(place.latitude) > 90 || !Number.isFinite(place.longitude) || Math.abs(place.longitude) > 180) throw Error('旅行目的地需有名稱、國家與有效座標');
+    }
     const dates = new Set();
     const ids = new Set();
     const days = records.slice(1).map(day => {
@@ -31,6 +36,7 @@
       if (!place || !text(place.name) || !Number.isFinite(place.latitude) || Math.abs(place.latitude) > 90 || !Number.isFinite(place.longitude) || Math.abs(place.longitude) > 180) throw Error(`${day.date} 的城市座標無效`);
       for (const item of day.items) {
         if (!item || !text(item.id) || !text(item.title) || !['note', 'mapQuery'].every(key => optional(item, key)) || (item.time !== undefined && !/^([01]\d|2[0-3]):[0-5]\d$/.test(item.time)) || (item.category !== undefined && !categories.includes(item.category))) throw Error(`${day.date} 有無效的行程項目`);
+        if (item.coordinates !== undefined && (!item.coordinates || !Number.isFinite(item.coordinates.latitude) || Math.abs(item.coordinates.latitude) > 90 || !Number.isFinite(item.coordinates.longitude) || Math.abs(item.coordinates.longitude) > 180)) throw Error('行程地點座標無效');
         if (ids.has(item.id)) throw Error(`行程 ID 重複：${item.id}`);
         ids.add(item.id);
       }

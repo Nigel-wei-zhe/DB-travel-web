@@ -8,16 +8,18 @@
 
 | 物件 | 必填 | 選填 |
 | --- | --- | --- |
-| trip | type=`trip`、id、title、timezone、currency | — |
+| trip | type=`trip`、id、title、timezone、currency | destination、subtitle |
 | day | type=`day`、date、title、location、items | — |
 | location | name、latitude、longitude | — |
-| items 中的項目 | id、title | time、category、note、mapQuery |
+| items 中的項目 | id、title | time、category、note、mapQuery、coordinates |
 
 - `trip.id`：穩定且唯一的旅行 ID，不同旅行請更換。
 - `timezone`：IANA 時區，例如 `Asia/Tokyo`，用來判斷當地今天與預設頁籤。
-- `currency`：三個大寫字母的貨幣代碼，例如 `JPY`。目前每日行程頁保留此欄位，首頁匯率仍使用 JPY/TWD；首頁天氣仍是東京，尚未與此檔連動。
+- `currency`：三個大寫字母的貨幣代碼，例如 `JPY`。首頁匯率目前使用 JPY/TWD。首頁標題、日期與天氣已讀取本檔旅行設定。
+- `destination`：選填物件，包含必填 `name`、`country`、`latitude`、`longitude`。名稱與國家不可空白，座標須在有效範圍。首頁地點與天氣共用此設定，天氣快取依座標與時區隔離。
+- `subtitle`：選填非空白文字，顯示在首頁標題下方。
 - `date`：有效的 `YYYY-MM-DD`，不可重複。
-- `latitude` / `longitude`：數字，範圍 -90～90 / -180～180。目前每日行程頁保留供後續天氣連動。
+- `latitude` / `longitude`：數字，範圍 -90～90 / -180～180。首頁天氣優先使用 `trip.destination` 座標；未填時使用第一天 location，時區使用 `trip.timezone`。
 - `items`：陣列；空陣列會顯示未安排提示。
 - 行程 `id`：整趟旅行中不可重複。
 - `time`：24 小時制 `HH:mm`；不填則顯示「彈性」。
@@ -58,3 +60,9 @@
 「行前」由程式加入，不要建立假的行程日期。出發前預設行前，旅行中選當地日期對應的行程，旅行結束後選最後一天。若日期不連續，選最近一個已開始的行程日。
 
 可直接開啟 `#itinerary/pretrip` 或 `#itinerary/2026-11-12`；頁籤切換支援瀏覽器上一頁。資料全部以文字建立 DOM，不將資料內容當作 HTML 執行。公開 JSONL 請勿放入護照、訂房代碼、私人聯絡資訊或其他秘密。
+
+## 行程地圖座標
+
+每個行程項目可填 `coordinates: {"latitude":35.7101,"longitude":139.8107}`；緯度必須在 -90～90、經度在 -180～180，均為有限數字。只有已設定座標的項目顯示圖釘，未設定時仍保留在地圖清單，不使用當日城市座標代替地點。地圖支援 `#map`、`#map/YYYY-MM-DD` 與 `#map/YYYY-MM-DD/項目ID`；圖釘資訊與導航沿用項目名稱、時間、分類、備註與 `mapQuery`。
+
+目前補入的東京示範座標為地標或區域代表點，餐飲與購物項目並非指定店家；來源為 Wikipedia 各地標條目的座標（Narita International Airport、Kaminarimon、Tokyo Skytree、Meiji Shrine、Omotesandō、Shibuya Station、Ueno Park）。未新增或變更原行程 ID、時間與內容。

@@ -11,7 +11,7 @@
 - **小功能先開功能分支**：從 `dev` 開 `feat-<名稱>`（不用 `/`）。push 到 `origin`、確認後再合回 `dev`，避免多個功能互相覆蓋。
 - 儲存庫已依使用者授權公開。每次 push 功能後提供含完整 commit SHA 的手機預覽網址：`https://raw.githack.com/Nigel-wei-zhe/DB-travel-web/<commit sha>/index.html`。githack 只供個人預覽，不當正式網址分享；若未來改為私人，需改提供可存取的預覽方式，不得擅自再次公開。
 - GitHub Pages 採 `dev` 分支根目錄（Deploy from a branch），網址為 `https://nigel-wei-zhe.github.io/DB-travel-web/`。push 到 `origin/dev` 會觸發部署；需確認部署成功，不能只憑 push 成功判定網站已更新。
-- **合回 `dev` 時更新版本號**：採 `日期.當天第幾次`，例如 `2026.10.10.2`。目前尚無 `APP_VERSION` 與設定頁版本顯示；首次實作版本機制時建立單一版本來源，之後合併均更新，讓使用者能確認版本。
+- **合回 `dev` 時更新版本號**：採 `日期.當天第幾次`，例如 `2026.10.10.2`。版本號以 `app.js` 的 `APP_VERSION` 為單一來源，顯示於首頁底部；每次合併均更新，讓使用者能確認版本。尚未實作設定頁，未來新增時沿用此來源。
 - **合回 `dev` 後清掉功能分支**：用 `git branch --merged dev` 確認完整合併後，再刪除本機與 `origin` 的對應功能分支，保留 `main`、`dev`。不要刪除他人或尚未合併的工作。
 - 發布穩定版本前先確認 `main` 最新狀態，在 `dev` 解決衝突並驗證，再同步至 `main`。
 
@@ -23,6 +23,8 @@
 - `trip-data.js`：JSONL 解析、欄位驗證、旅行日期選擇與資料載入。
 - `itinerary.js`：每日行程、行前清單、勾選狀態。
 - `shops.js`：依區域呈現精選店家。
+- `visits.js`：依旅程與行程項目 ID 保存蓋章紀錄。
+- `maps.js`：地圖、日期篩選、圖釘與導航。
 - `coupons.js`：優惠券圖片與放大視窗。
 - `data/itinerary.jsonl`：旅行設定與每天行程。
 - `data/checklist.jsonl`：行前清單；勾選存在 localStorage，依旅行 ID 與項目 ID 對應。
@@ -32,7 +34,7 @@
 - `dev-server.cjs`：本機靜態伺服器。
 - `app.test.cjs`、`trip-data.test.cjs`：公開 API 行為與資料驗證測試。
 
-目前沒有 Service Worker、manifest、本機字型子集、內嵌地圖、日夜模式或字級設定。以下相關規則是新增這些能力時的要求，不代表它們已存在；不要呼叫不存在的工具或函式。
+目前沒有 Service Worker、manifest、本機字型子集、日夜模式或字級設定。以下相關規則是新增這些能力時的要求，不代表它們已存在；不要呼叫不存在的工具或函式。
 
 ## 常用指令
 
@@ -41,7 +43,7 @@ node dev-server.cjs
 # 預覽：http://127.0.0.1:5173/，不要直接用 file:// 開啟
 
 node --check app.js
-node --test --test-isolation=none app.test.cjs trip-data.test.cjs
+node --test --test-isolation=none app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs
 ```
 
 若 npm 可用，也可用 `npm run dev`、`npm run check`、`npm test`，不需要安裝套件。修改其他 JavaScript 檔時，也對該檔執行 `node --check`。
@@ -96,7 +98,7 @@ node --test --test-isolation=none app.test.cjs trip-data.test.cjs
 
 ## 改完怎麼驗證
 
-1. JavaScript 語法檢查與現有 15 項測試通過；新功能需要的驗證依實際風險補充。
+1. JavaScript 語法檢查與現有測試通過；新功能需要的驗證依實際風險補充。
 2. 本機伺服器開啟，在 360px 寬度檢查首頁、行程、精選店家、優惠與 hash 上一頁導覽。
 3. 檢查清單勾選保存、日期切換、地圖連結、優惠原圖與放大視窗；新功能以實際操作驗證。
 4. 導入日夜模式與字級設定後，檢查兩套主題及「特大」字級；不得把尚未實作的功能回報為已測試。
@@ -104,6 +106,8 @@ node --test --test-isolation=none app.test.cjs trip-data.test.cjs
 6. iPhone Safari 確認頂端安全區、底部分頁列與 sheet；沒有實機時明確說明未驗證。
 
 ## 寫作慣例
+
+- 不自行產生標語、宣傳口號或抒情文案；介面文字以功能、地點與實際資訊為主。
 
 - 介面文字、README、commit 訊息使用台灣繁體中文。
 - 口吻簡短直接，按鈕寫動作，例如「看地圖」「導航」；錯誤說清楚問題與修正方式。

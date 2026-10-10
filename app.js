@@ -1,3 +1,5 @@
+const APP_VERSION = '2026.10.10.1';
+document.querySelector('#app-version').textContent = APP_VERSION;
 const amount = document.querySelector('#amount');
 const result = document.querySelector('#result');
 let reversed = false;
@@ -15,13 +17,14 @@ document.querySelector('#swap').addEventListener('click', () => {
   document.querySelector('#to-label').innerHTML = reversed ? '日圓 <b>JPY</b>' : '台幣 <b>TWD</b>';
   convert();
 });
-const titles = { itinerary: '每日行程', shopping: '精選店家', offers: '優惠' };
+const titles = { itinerary: '每日行程', shopping: '精選店家', offers: '優惠', map: '地圖' };
 function navigate() {
   const route = location.hash.slice(1).split('/')[0];
   const page = Object.hasOwn(titles, route) ? route : 'home';
   document.querySelector('#home-page').hidden = page !== 'home';
   document.querySelector('#itinerary-page').hidden = page !== 'itinerary';
   document.querySelector('#shops-page').hidden = page !== 'shopping';
+  document.querySelector('#map-page').hidden = page !== 'map';
   document.querySelector('#offers-page').hidden = page !== 'offers';
   document.querySelectorAll('.bottom-nav a').forEach(link => {
     if (link.dataset.page === page) link.setAttribute('aria-current', 'page');
@@ -33,16 +36,8 @@ function navigate() {
 window.addEventListener('hashchange', navigate);
 navigate();
 
-// Public destination only; never put credentials or private trip details here.
-const weatherURL = new URL('https://api.open-meteo.com/v1/forecast');
-weatherURL.search = new URLSearchParams({
-  latitude: '35.6762', longitude: '139.6503', timezone: 'Asia/Tokyo',
-  current: 'temperature_2m,weather_code,is_day',
-  daily: 'temperature_2m_max,temperature_2m_min,precipitation_probability_max',
-  forecast_days: '1'
-}).toString();
 const services = {
-  weather: { url: weatherURL.href, ttl: 30 * 60 * 1000, validate: validWeather, render: renderWeather },
+  weather: { url: '', ttl: 30 * 60 * 1000, validate: validWeather, render: renderWeather },
   exchange: { url: 'https://api.frankfurter.dev/v2/rate/JPY/TWD', ttl: 6 * 60 * 60 * 1000, validate: validRate, render: renderRate }
 };
 const number = value => typeof value === 'number' && Number.isFinite(value);
@@ -77,7 +72,7 @@ function renderWeather(data) {
   art.setAttribute('aria-label', description);
   document.querySelector('#weather-high').textContent = `${Math.round(data.daily.temperature_2m_max[0])}°`;
   document.querySelector('#weather-low').textContent = `${Math.round(data.daily.temperature_2m_min[0])}°`;
-  document.querySelector('#weather-rain').textContent = `${Math.round(data.daily.precipitation_probability_max[0])}%`;
+  document.querySelector('#weather-rain-chance').textContent = `${Math.round(data.daily.precipitation_probability_max[0])}%`;
 }
 function renderRate(data) {
   exchangeRate = data.rate;
@@ -86,7 +81,7 @@ function renderRate(data) {
 }
 function readCache(name) {
   try {
-    const entry = JSON.parse(localStorage.getItem(`tabi-${name}-v1`));
+    const entry = JSON.parse(localStorage.getItem(services[name].cacheKey || `tabi-${name}-v1`));
     return entry && number(entry.fetchedAt) && entry.fetchedAt <= Date.now() && services[name].validate(entry.data) ? entry : null;
   } catch { return null; }
 }
@@ -101,6 +96,7 @@ async function loadData(name, force = false) {
   const cached = service.last || readCache(name);
   if (!force && cached && Date.now() - cached.fetchedAt < service.ttl) {
     service.last = cached;
+    status.classList.remove('data-error');
     service.render(cached.data);
     status.textContent = `刷新時間 ${fetchedTime(cached.fetchedAt)}（台灣時間）`;
     return;
@@ -120,7 +116,7 @@ async function loadData(name, force = false) {
     if (!service.validate(data)) throw new Error('Invalid API data');
     const entry = { data, fetchedAt: Date.now() };
     service.last = entry;
-    try { localStorage.setItem(`tabi-${name}-v1`, JSON.stringify(entry)); } catch { /* Storage may be unavailable in private browsing. */ }
+    try { localStorage.setItem(service.cacheKey || `tabi-${name}-v1`, JSON.stringify(entry)); } catch { /* Storage may be unavailable in private browsing. */ }
     service.render(data);
     status.textContent = `刷新時間 ${fetchedTime(entry.fetchedAt)}（台灣時間）`;
   } catch {
@@ -144,7 +140,49 @@ async function loadData(name, force = false) {
     button.setAttribute('aria-busy', 'false');
   }
 }
-Object.keys(services).forEach(name => {
-  document.querySelector(`#${name}-refresh`).addEventListener('click', () => loadData(name, true));
-  loadData(name);
-});
+// 首頁目的地、日期與天氣共用旅行設定；舊資料缺少目的地時使用第一天位置。
+let homeReady = false;
+let homeLoading = false;
+async function initializeHome() {
+  if (homeLoading) return;
+  homeLoading = true;
+  const button = document.querySelector('#weather-refresh');
+  button.disabled = true;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+  try {
+    const response = await fetch('./data/itinerary.jsonl', { cache: 'no-cache', signal: controller.signal });
+    if (!response.ok) throw Error('旅行設定讀取失敗');
+    const { trip, days } = TripData.parseItinerary(await response.text());
+    const destination = trip.destination || { ...days[0].location, country: '' };
+    document.querySelector('#trip-title').textContent = trip.title;
+    document.querySelector('#trip-place').textContent = [destination.name, destination.country].filter(Boolean).join('・');
+    const first = days[0].date;
+    const last = days[days.length - 1].date;
+    document.querySelector('#trip-dates').textContent = `${first.replaceAll('-', '.')} — ${last.slice(5).replace('-', '.')}`;
+    const nights = Math.round((Date.parse(last) - Date.parse(first)) / 86400000);
+    document.querySelector('#trip-duration').textContent = `${nights + 1} 天 ${nights} 夜`;
+    document.querySelector('#weather-place').textContent = `${destination.name}的天氣`;
+    document.querySelector('#weather-description').textContent = `正在讀取${destination.name}天氣…`;
+    const url = new URL('https://api.open-meteo.com/v1/forecast');
+    url.search = new URLSearchParams({ latitude: destination.latitude, longitude: destination.longitude, timezone: trip.timezone,
+      current: 'temperature_2m,weather_code,is_day', daily: 'temperature_2m_max,temperature_2m_min,precipitation_probability_max', forecast_days: '1' }).toString();
+    services.weather.url = url.href;
+    services.weather.cacheKey = `tabi-weather-v2:${destination.latitude},${destination.longitude}:${trip.timezone}`;
+    homeReady = true;
+  } catch {
+    document.querySelector('#trip-place').textContent = '旅行設定無法載入';
+    document.querySelector('#weather-description').textContent = '目的地暫時無法載入';
+    document.querySelector('#weather-status').textContent = '請檢查網路，按重新整理天氣重試。';
+    document.querySelector('#weather-status').classList.add('data-error');
+  } finally {
+    clearTimeout(timeout);
+    homeLoading = false;
+    button.disabled = false;
+  }
+  if (homeReady) await loadData('weather');
+}
+document.querySelector('#weather-refresh').addEventListener('click', () => homeReady ? loadData('weather', true) : initializeHome());
+document.querySelector('#exchange-refresh').addEventListener('click', () => loadData('exchange', true));
+initializeHome();
+loadData('exchange');
