@@ -56,3 +56,10 @@ test('coupon records reject remote images and duplicate IDs', () => {
   assert.throws(() => parseCoupons(JSON.stringify({ ...record, image: 'https://example.com/a.png' })), /資料夾/);
   assert.throws(() => parseCoupons([record, record].map(JSON.stringify).join('\n')), /ID 重複/);
 });
+
+test('destination coordinates and optional subtitle are validated', () => {
+  assert.equal(parseItinerary(itinerary).trip.destination.name, '福岡');
+  assert.throws(() => parseItinerary(itinerary.replace('33.5902', '133.5902')), /目的地/);
+  assert.throws(() => parseItinerary(itinerary.replace('130.4017', '230.4017')), /目的地/);
+  assert.throws(() => parseItinerary(itinerary.replace('"country":"日本"', '"country":""')), /目的地/);
+});

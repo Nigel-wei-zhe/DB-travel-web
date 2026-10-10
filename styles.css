@@ -209,7 +209,7 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 
 /* 全站配色單一來源：方案一米白底、磚紅、墨綠、咖啡與白色。 */
 :root {
-  --paper: #F6F1E9;
+  --paper: #F3EBDD;
   --brick: #8B3A2E;
   --forest: #1F3D33;
   --coffee: #6B4F3B;
@@ -279,3 +279,38 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 .timeline li::before { background: var(--brick); border-color: var(--surface); }
 .refresh-halo { fill: transparent; stroke: currentColor; }
 .date-chip .date-number { background: transparent; }
+
+/* 秋日福岡：海霧、落葉與屋台的暖光，由主色延伸的插畫色。 */
+:root {
+  --art-sky: color-mix(in srgb, var(--forest) 12%, var(--paper));
+  --art-water: color-mix(in srgb, var(--forest) 25%, var(--paper));
+  --art-hill: color-mix(in srgb, var(--forest) 39%, var(--paper));
+  --art-ground: color-mix(in srgb, var(--coffee) 23%, var(--paper));
+  --art-rust: color-mix(in srgb, var(--brick) 60%, var(--paper));
+  --art-blush: color-mix(in srgb, var(--brick) 27%, var(--paper));
+  --art-sun: color-mix(in srgb, var(--coffee) 28%, var(--paper));
+  --line: color-mix(in srgb, var(--coffee) 22%, var(--paper));
+}
+#home-page .cover {
+  background: color-mix(in srgb, var(--paper) 72%, var(--surface));
+  border-color: var(--line);
+}
+.cover-kicker { color: var(--coffee); font: calc(10px * var(--fs, 1))/1.6 Georgia, serif; letter-spacing: 3px; margin: 0 52px 4px 0; }
+#home-page .cover h1 { font-size: calc(28px * var(--fs, 1)); letter-spacing: 2px; margin-bottom: 4px; }
+.cover-subtitle { font-family: var(--serif); font-size: calc(15px * var(--fs, 1)); line-height: 1.8; color: var(--coffee); margin: 0 0 12px; }
+#home-page .cover .trip-meta { font-size: calc(11px * var(--fs, 1)); gap: 8px 12px; }
+svg.fukuoka-art { width: calc(100% + 32px); height: auto; margin: 4px -16px 0; }
+#home-page .cover-foot { font-size: calc(11px * var(--fs, 1)); letter-spacing: 1px; justify-content: space-between; border-color: var(--line); }
+#home-page .cover-foot > span:last-child { font-size: calc(10px * var(--fs, 1)); letter-spacing: 0; }
+#home-page .exchange .card-top { background: var(--forest); }
+#home-page .day-heading, #home-page .itinerary-heading h2 { background: var(--forest); }
+#home-page .exchange .yen-icon { background: var(--brick); border-color: var(--brick); }
+.card { box-shadow: 0 3px 12px color-mix(in srgb, var(--coffee) 6%, transparent); }
+#home-page .cover .stamp { top: auto; background: var(--brick); color: var(--on-accent); border-color: var(--brick); outline-color: var(--brick); }
+#home-page .cover-heading { top: 20px; }
+#home-page .exchange .rate strong { color: var(--brick); }
+.bottom-nav a[aria-current] { background: var(--forest); }
+@media (max-width:360px) {
+  #home-page .cover h1 { font-size: calc(26px * var(--fs, 1)); }
+  .cover-subtitle { font-size: calc(15px * var(--fs, 1)); }
+}

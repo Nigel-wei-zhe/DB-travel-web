@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#F6F1E9">
+  <meta name="theme-color" content="#F3EBDD">
   <title>旅日手帖 · 小小旅行日記</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
@@ -36,28 +36,74 @@
       <div id="home-page" class="page">
         <section class="cover" aria-labelledby="trip-title">
           <div class="cover-heading"><span class="stamp">日本<br><small>JAPAN</small></span></div>
-          <h1 id="trip-title">東京旅行</h1>
-          <div class="trip-meta"><span><svg><use href="#pin"/></svg>東京・日本</span><span>2026.11.12 — 11.16</span></div>
-          <svg class="cover-art" viewBox="0 0 420 160" role="img" aria-label="手繪日本街景、富士山與散步的小貓">
-            <g stroke="var(--forest)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-              <path d="M5 144c80-10 137 5 208-3s128-4 201 2" fill="none"/>
-              <path d="m222 121 66-96 70 96" fill="var(--line)" stroke="none"/><path d="m271 50 17-25 19 27-12-5-7 8-7-8Z" fill="var(--surface)" stroke="none"/>
-              <g fill="var(--surface)" stroke="none"><path d="M28 28c-3-12 13-17 19-7 10-7 23 2 19 11H28Z"/><path d="M333 22c-4-11 11-18 18-8 12-7 23 3 18 10h-36Z"/></g>
-              <circle cx="240" cy="28" r="13" fill="var(--line)" stroke="none"/>
-              <path d="M40 80h64v62H40Z" fill="var(--paper)"/><path d="m31 80 40-24 42 24Z" fill="var(--line)"/><path d="M49 93h17v19H49Zm29 0h17v19H78Z" fill="var(--surface)"/><path d="M65 142v-23h16v23" fill="var(--line)"/>
-              <path d="M115 68h72v75h-72Z" fill="var(--paper)"/><path d="m110 69 7-13h69l7 13Z" fill="var(--line)"/><path d="M126 83h50v27h-50Z" fill="var(--surface)"/><path d="M151 83v27m-25-14h50"/><path d="M120 118h62v9h-62Z" fill="var(--line)"/><path d="M129 128v15m44-15v15"/>
-              <path d="M203 142v-31"/><path d="M193 111h20v14h-20Z" fill="var(--surface)"/><path d="M197 118h12"/>
-              <path d="M354 144v-41m0 18-11-10m11 0 12-10" fill="none"/><path d="M333 99c-13-16 5-30 16-20 4-15 24-10 24 3 17 1 17 24 1 27-11 10-25 8-30-1-12 4-21-5-11-9Z" fill="var(--line)" stroke="none"/>
-              <path d="M282 139c-5-4-6-13-1-17l-1-10 9 6h8l8-6-1 12c5 7 3 15-2 18m-20-2c-12 4-18-2-13-8" fill="var(--paper)"/><path d="M287 128h.1m11 0h.1m-7 4 2 2 2-2"/>
-              <path d="m229 141 6-3m83 6 5-2" fill="none"/>
+          <p class="cover-kicker" aria-hidden="true">AUTUMN JOURNAL</p><h1 id="trip-title">旅行手帖</h1><p id="trip-subtitle" class="cover-subtitle"></p>
+          <div class="trip-meta"><span><svg><use href="#pin"/></svg><span id="trip-place">正在讀取目的地…</span></span><span id="trip-dates"></span></div>
+          <svg class="cover-art fukuoka-art" viewBox="0 0 440 245" role="img" aria-labelledby="fukuoka-art-title fukuoka-art-desc">
+            <title id="fukuoka-art-title">福岡的秋日小旅行</title>
+            <desc id="fukuoka-art-desc">福岡塔望著海灣，電車經過秋樹，屋台亮起暖燈；戴圍巾的小貓捧著熱湯。日本繪本風格的想像風景。</desc>
+            <defs>
+              <pattern id="journal-grain" width="17" height="19" patternUnits="userSpaceOnUse"><circle cx="3" cy="5" r=".65" fill="var(--coffee)" opacity=".12"/><circle cx="12" cy="15" r=".5" fill="var(--coffee)" opacity=".1"/></pattern>
+              <pattern id="tower-windows" width="9" height="12" patternUnits="userSpaceOnUse"><path d="m0 0 9 12M9 0 0 12" stroke="var(--paper)" stroke-width=".7" opacity=".65"/></pattern>
+            </defs>
+            <path d="M10 132C-3 72 47 13 109 28c62-41 118-7 156 0 70-25 143 9 161 72 13 54-37 102-88 104H81c-39-4-67-27-71-72Z" fill="var(--art-sky)"/>
+            <circle cx="306" cy="57" r="23" fill="var(--art-sun)"/>
+            <g fill="var(--paper)" opacity=".9"><path d="M42 61c-9-8 4-19 13-13 5-13 23-9 23 1 11-4 21 6 16 12Z"/><path d="M326 90c-5-6 1-15 9-12 4-9 18-7 19 2 9-2 15 3 14 10Z"/></g>
+            <g stroke="var(--coffee)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+              <path d="m18 127 29-19 32 12 36-28 48 26 43-15 42 23 47-15 39 13 31-17 47 22" fill="var(--art-hill)" stroke="none"/>
+              <path d="M15 137c65-10 116 5 172-1 82-10 151-4 234 2l-10 44H26Z" fill="var(--art-water)" stroke="none"/>
+              <path d="M26 148c23-3 40 4 61 0m190-3c22-3 49 4 67 0m-247 13c18-2 33 2 48 0m202 4h34" fill="none" stroke="var(--paper)" stroke-width="2.5"/>
+              <g transform="translate(147 15) rotate(-2 25 70)">
+                <path d="m13 127 8-101h19l8 101Z" fill="var(--forest)"/>
+                <path d="m13 127 8-101h19l8 101Z" fill="url(#tower-windows)" stroke="none"/>
+                <path d="m21 26 9-17 10 17M30 9V0" fill="var(--art-water)"/>
+                <path d="M18 38h25v12H18Z" fill="var(--paper)"/><path d="M23 40v8m7-8v8m7-8v8" stroke="var(--forest)"/>
+                <path d="M25 56v71m-12 0h35" fill="none" stroke="var(--paper)"/>
+              </g>
+              <path d="M8 187c79-25 131-8 214-10 70-3 120-6 209 11l-8 35H18Z" fill="var(--art-ground)" stroke="none"/>
+              <g transform="translate(24 117) rotate(-3 53 32)">
+                <path d="M4 17Q4 7 16 7h75q13 0 13 12v39H4Z" fill="var(--paper)"/>
+                <path d="M3 39h101v13H3Z" fill="var(--forest)" stroke="none"/>
+                <rect x="12" y="16" width="22" height="19" rx="4" fill="var(--art-water)"/><rect x="41" y="16" width="22" height="19" rx="4" fill="var(--art-water)"/><rect x="71" y="15" width="25" height="37" rx="4" fill="var(--forest)"/>
+                <path d="M77 20h13v13H77Z" fill="var(--art-water)" stroke="none"/>
+                <circle cx="22" cy="60" r="5" fill="var(--coffee)"/><circle cx="84" cy="60" r="5" fill="var(--coffee)"/><path d="M-2 68h111" fill="none"/>
+                <path d="M13 44h45" stroke="var(--surface)"/>
+              </g>
+              <g transform="translate(249 113) rotate(2 55 40)">
+                <path d="M4 22h111l-9-20H15Z" fill="var(--brick)"/>
+                <path d="M15 4 8 22m23-20-4 20M48 2l-2 20M65 2v20M82 2l2 20M99 2l5 20" stroke="var(--art-blush)"/>
+                <path d="M13 25v61m92-61v61M9 66h101v9H9Z" fill="var(--coffee)"/>
+                <path d="M17 26h30v21H17Zm34 0h30v21H51Z" fill="var(--forest)"/>
+                <path d="M22 31v10m7-10v10m7-10v10m21-10v10m7-10v10m7-10v10" stroke="var(--surface)"/>
+                <rect x="88" y="29" width="13" height="21" rx="6" fill="var(--art-sun)"/><path d="M94 24v5m0 21v5"/>
+                <path d="M23 58q10 15 20 0Z" fill="var(--paper)"/><path d="M29 54q-4-4 0-8m7 8q-4-4 0-8" fill="none" stroke="var(--art-ground)"/>
+                <path d="M56 75v12m28-12v12" stroke-width="4"/>
+              </g>
+              <g transform="translate(365 94)">
+                <path d="M16 101V34m0 25L3 45m13-4 15-14" fill="none" stroke-width="3"/>
+                <path d="M-3 39c-15-11-6-31 9-28C8-8 29-5 34 9c20-1 22 22 7 28-9 15-26 17-44 2Z" fill="var(--coffee)" stroke="none"/>
+                <path d="M4 13c-2-15 18-17 23-4 14-7 26 7 17 17-4 11-18 15-26 6C8 40-6 26 4 13Z" fill="var(--art-rust)" stroke="none"/>
+                <path d="m-5 48 6 5-5 7-5-5Zm43 16 7-3 2 8-7 4Z" fill="var(--brick)" stroke="none"/>
+              </g>
+              <g transform="translate(183 160) rotate(-5 22 30)">
+                <path d="M6 30 4 9l11 7q8-4 16 0L41 8l-1 23q6 28-17 28Q1 59 6 30Z" fill="var(--paper)"/>
+                <path d="M8 36h30l-3 9-27-2Z" fill="var(--brick)" stroke="none"/><path d="m30 41 7 16 7-4-7-15" fill="var(--brick)"/>
+                <circle cx="15" cy="27" r="1.4" fill="var(--forest)"/><circle cx="30" cy="27" r="1.4" fill="var(--forest)"/><path d="m20 31 3 2 3-2m-7 5q4 3 8 0" fill="none"/>
+                <ellipse cx="11" cy="32" rx="4" ry="2" fill="var(--art-blush)" stroke="none"/><ellipse cx="34" cy="32" rx="4" ry="2" fill="var(--art-blush)" stroke="none"/>
+                <path d="M13 46h20q-2 14-10 14-8 0-10-14Z" fill="var(--surface)"/><path d="M20 42q-4-5 0-9m7 9q-3-5 0-9" fill="none"/>
+                <path d="M7 52q-18 5-17-7" fill="none" stroke-width="3"/>
+              </g>
+              <path d="m126 200 9-4 4 6-8 5Zm120 15 5-7 6 5-3 7Z" fill="var(--brick)" stroke="none"/>
+              <path d="M47 216q7-9 14-2m302 6q8-9 15-2" fill="none" stroke="var(--forest)"/>
+              <path d="m214 58 5-2 4 4m-8-1-4 2" fill="none" stroke-width="1.3"/>
             </g>
+            <path d="M10 132C-3 72 47 13 109 28c62-41 118-7 156 0 70-25 143 9 161 72 13 54-37 102-88 104H81c-39-4-67-27-71-72Z" fill="url(#journal-grain)"/>
           </svg>
-          <div class="cover-foot"><span>5 DAYS / 4 NIGHTS</span></div>
+          <div class="cover-foot"><span>慢慢走，好好收藏。</span><span id="trip-duration"></span></div>
         </section>
         <section class="weather card" aria-labelledby="weather-title">
-          <div class="card-top"><h3 id="weather-title"><svg><use href="#pin"/></svg>東京的天氣</h3><button class="refresh" id="weather-refresh" type="button" aria-label="重新整理天氣" title="重新整理天氣"><svg aria-hidden="true"><use href="#refresh"/></svg></button></div>
-          <div class="weather-main"><div><span class="temperature"><span id="weather-temp" class="temperature-value">—</span><span>°</span></span><p id="weather-description">正在讀取東京天氣…</p></div><svg id="weather-icon" class="live-weather-icon" viewBox="0 0 120 100" role="img" aria-label="天氣載入中"><use id="weather-glyph" href="#weather-cloud"/></svg></div>
-          <div class="weather-details"><span>最高 <b id="weather-high">—</b> / 最低 <b id="weather-low">—</b></span><span>今日降雨機率 <b id="weather-rain">—</b></span></div>
+          <div class="card-top"><h3 id="weather-title"><svg><use href="#pin"/></svg><span id="weather-place">目的地天氣</span></h3><button class="refresh" id="weather-refresh" type="button" aria-label="重新整理天氣" title="重新整理天氣"><svg aria-hidden="true"><use href="#refresh"/></svg></button></div>
+          <div class="weather-main"><div><span class="temperature"><span id="weather-temp" class="temperature-value">—</span><span>°</span></span><p id="weather-description">正在讀取目的地天氣…</p></div><svg id="weather-icon" class="live-weather-icon" viewBox="0 0 120 100" role="img" aria-label="天氣載入中"><use id="weather-glyph" href="#weather-cloud"/></svg></div>
+          <div class="weather-details"><span>最高 <b id="weather-high">—</b> / 最低 <b id="weather-low">—</b></span><span>今日降雨機率 <b id="weather-rain-chance">—</b></span></div>
           <p id="weather-status" class="data-note" role="status">正在載入…</p>
         </section>
         <section class="exchange card" aria-labelledby="exchange-title">
@@ -66,9 +112,9 @@
           <div class="converter"><label><span id="from-label">日圓 <b>JPY</b></span><input id="amount" type="number" min="0" max="999999999" step="any" inputmode="decimal" value="1000" aria-labelledby="from-label"></label><button id="swap" class="swap" aria-label="交換換算幣別">⇄</button><div class="converted"><span id="to-label">台幣 <b>TWD</b></span><output id="result" for="amount" aria-live="polite">—</output></div></div>
           <p id="exchange-status" class="data-note" role="status">正在載入…</p>
         </section>
-        <div class="section-heading itinerary-heading"><h2>今日行程</h2><a href="#itinerary">完整行程 <svg><use href="#arrow"/></svg></a></div>
+        <div class="section-heading itinerary-heading"><h2>行程預覽</h2><a href="#itinerary">完整行程 <svg><use href="#arrow"/></svg></a></div>
         <section class="itinerary card" aria-label="示範今日行程">
-          <div class="day-heading"><div class="day-badge">DAY<span>01</span></div><div><h3>抵達東京與市區行程</h3><p>11 月 12 日・星期四 <span>示範行程</span></p></div><span class="flower">✿</span></div>
+          <div class="day-heading"><div class="day-badge">DAY<span>01</span></div><div><h3>抵達東京與市區行程</h3><p>11 月 12 日・星期四 <span>東京示範資料</span></p></div><span class="flower">✿</span></div>
           <ol class="timeline"><li><time>10:30</time><div><h4>抵達成田機場</h4><p>領取行李，準備前往市區</p></div><a href="https://www.google.com/maps/search/?api=1&query=Narita+International+Airport" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看成田機場"><svg><use href="#pin"/></svg></a></li><li><time>14:00</time><div><h4>淺草散步・雷門</h4><p>參觀雷門與仲見世通</p></div><a href="https://www.google.com/maps/search/?api=1&query=Kaminarimon+Tokyo" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看雷門"><svg><use href="#pin"/></svg></a></li><li><time>17:30</time><div><h4>晴空塔下的晚餐</h4><p>晴空塔周邊用餐</p></div><a href="https://www.google.com/maps/search/?api=1&query=Tokyo+Skytree" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看晴空塔"><svg><use href="#pin"/></svg></a></li></ol>
         </section>
         <footer class="page-footer"><details class="credits"><summary>授權資訊</summary><p>Weather by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><br>天氣說明已轉為中文、溫度取整數。<br>匯率由 <a href="https://frankfurter.dev/" target="_blank" rel="noopener noreferrer">Frankfurter</a> 提供，每日參考匯率，非銀行報價。</p></details></footer>

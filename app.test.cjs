@@ -8,10 +8,13 @@ const weather = {
   daily: { time: ['2026-10-09'], temperature_2m_max: [21.2], temperature_2m_min: [14.4], precipitation_probability_max: [65] }
 };
 const rate = { base: 'JPY', quote: 'TWD', rate: 0.218, date: '2026-10-09' };
-async function setup({ fail = false, invalid = false, cached = false, storageBlocked = false } = {}) {
+async function setup({ fail = false, invalid = false, cached = false, storageBlocked = false, configFailOnce = false } = {}) {
   const nodes = new Map();
   const storage = new Map();
   let requests = 0;
+  const urls = [];
+  let configRequests = 0;
+  storage.set('tabi-weather-v1', JSON.stringify({ data: { ...weather, current: { ...weather.current, temperature_2m: 99 } }, fetchedAt: Date.now() }));
   function node(selector) {
     if (!nodes.has(selector)) nodes.set(selector, {
       value: selector === '#amount' ? '1000' : '', textContent: '', handlers: {}, attributes: {},
@@ -23,7 +26,7 @@ async function setup({ fail = false, invalid = false, cached = false, storageBlo
   }
   if (cached) {
     for (const [name, data] of Object.entries({ weather, exchange: rate })) {
-      storage.set(`tabi-${name}-v1`, JSON.stringify({ data, fetchedAt: Date.now() - 24 * 60 * 60 * 1000 }));
+      storage.set(name === 'weather' ? 'tabi-weather-v2:33.5902,130.4017:Asia/Tokyo' : `tabi-${name}-v1`, JSON.stringify({ data, fetchedAt: Date.now() - 24 * 60 * 60 * 1000 }));
     }
   }
   const context = vm.createContext({
@@ -33,7 +36,13 @@ async function setup({ fail = false, invalid = false, cached = false, storageBlo
       getItem: key => { if (storageBlocked) throw Error('blocked'); return storage.get(key) || null; },
       setItem: (key, value) => { if (storageBlocked) throw Error('blocked'); storage.set(key, value); }
     },
+    TripData: require('./trip-data.js'),
     fetch: async url => {
+      if (url === './data/itinerary.jsonl') {
+        if (configFailOnce && configRequests++ === 0) throw Error('offline');
+        return { ok: true, text: async () => fs.readFileSync('data/itinerary.jsonl', 'utf8') };
+      }
+      urls.push(url);
       requests++;
       if (fail) throw Error('offline');
       return { ok: true, json: async () => invalid ? { rate: 0 } : url.includes('open-meteo') ? weather : rate };
@@ -42,12 +51,12 @@ async function setup({ fail = false, invalid = false, cached = false, storageBlo
   });
   vm.runInContext(source, context);
   await new Promise(resolve => setImmediate(resolve));
-  return { node, context, requests: () => requests };
+  return { node, context, requests: () => requests, urls };
 }
 test('live responses update weather, forward conversion and reciprocal conversion', async () => {
   const { node } = await setup();
   assert.equal(node('#weather-temp').textContent, 18);
-  assert.equal(node('#weather-rain').textContent, '65%');
+  assert.equal(node('#weather-rain-chance').textContent, '65%');
   assert.match(node('#weather-description').textContent, /有雨/);
   assert.equal(node('#result').textContent, '218');
   node('#amount').value = '218';
@@ -87,4 +96,24 @@ test('fresh cache avoids network requests; manual refresh bypasses cache', async
   assert.equal(requests(), 2);
   await vm.runInContext("loadData('exchange', true)", context);
   assert.equal(requests(), 3);
+});
+
+test('home destination config sets Fukuoka coordinates and avoids Tokyo weather cache', async () => {
+  const { node, urls } = await setup();
+  assert.equal(node('#trip-title').textContent, '福岡秋日手帖');
+  assert.equal(node('#weather-place').textContent, '福岡的天氣');
+  assert.equal(node('#weather-temp').textContent, 18);
+  const url = new URL(urls.find(url => url.includes('open-meteo')));
+  assert.equal(url.searchParams.get('latitude'), '33.5902');
+  assert.equal(url.searchParams.get('longitude'), '130.4017');
+});
+
+test('destination loading failure can retry without fetching weather for the wrong city', async () => {
+  const { node, urls } = await setup({ configFailOnce: true });
+  assert.match(node('#weather-status').textContent, /重試/);
+  assert.equal(urls.some(url => url.includes('open-meteo')), false);
+  assert.equal(node('#weather-refresh').disabled, false);
+  await node('#weather-refresh').handlers.click();
+  assert.equal(node('#weather-place').textContent, '福岡的天氣');
+  assert.equal(node('#weather-temp').textContent, 18);
 });
