@@ -314,3 +314,21 @@ svg.fukuoka-art { width: calc(100% + 32px); height: auto; margin: 4px -16px 0; }
   #home-page .cover h1 { font-size: calc(26px * var(--fs, 1)); }
   .cover-subtitle { font-size: calc(15px * var(--fs, 1)); }
 }
+
+/* 淺色手帖封面與共用日式手繪圖示。 */
+:root { --cover-surface: color-mix(in srgb, var(--paper) 35%, var(--surface)); }
+#home-page .cover { background: var(--cover-surface); }
+.bottom-nav svg { width: 25px; height: 25px; stroke-width: 1.55; }
+.bottom-nav a:nth-child(odd) svg { transform: rotate(-3deg); }
+.bottom-nav a:nth-child(even) svg { transform: rotate(2deg); }
+#home-page .card-top h3 svg { width: 20px; height: 20px; }
+#home-page .exchange svg.yen-icon { width: 23px; height: 23px; padding: 0; border: 0; border-radius: 0; background: transparent; }
+.swap { display: flex; align-items: center; justify-content: center; }
+.swap svg { width: 25px; height: 25px; }
+#coupon-close { display: inline-flex; align-items: center; justify-content: center; }
+#coupon-close svg { width: 24px; height: 24px; }
+.stop-map, #coupon-original { gap: 6px; }
+.stop-map svg, #coupon-original svg { width: 18px; height: 18px; flex-shrink: 0; }
+.flower svg { width: 29px; height: 29px; }
+.check-item input { border-radius: 5px 7px 5px 6px; }
+.check-item input:checked::after { width: 9px; height: 5px; transform: translateY(-2px) rotate(-42deg); }

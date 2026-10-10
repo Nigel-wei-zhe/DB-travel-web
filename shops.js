@@ -30,7 +30,8 @@
           card.append(el('h3', '', shop.name));
           if (shop.note) card.append(el('p', '', shop.note));
           if (shop.mapQuery) {
-            const map = el('a', 'stop-map', '查看地圖 ↗');
+            const map = el('a', 'stop-map', '查看地圖');
+            map.append(HandDrawnIcons.create('pin'));
             map.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.mapQuery)}`;
             map.target = '_blank';
             map.rel = 'noopener noreferrer';

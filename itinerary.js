@@ -13,6 +13,12 @@
     if (text !== undefined) node.textContent = text;
     return node;
   };
+  function leaf() {
+    const span = el('span', 'flower');
+    span.setAttribute('aria-hidden', 'true');
+    span.append(HandDrawnIcons.create('leaf-hand'));
+    return span;
+  }
   const storageKey = () => `tabi-checklist:${encodeURIComponent(journey.trip.id)}`;
   function loadChecks() {
     try {
@@ -28,7 +34,7 @@
     const heading = el('div', 'journey-heading');
     const words = el('div');
     words.append(el('h2', '', '行前檢查表'));
-    heading.append(words, el('span', 'flower', '✿'));
+    heading.append(words, leaf());
     content.append(heading);
     if (checklistError) {
       content.append(el('p', 'load-error', checklistError));
@@ -78,7 +84,7 @@
     const heading = el('div', 'journey-heading');
     const words = el('div');
     words.append(el('span', 'eyebrow', `DAY ${String(journey.days.indexOf(day) + 1).padStart(2, '0')} / ${day.location.name}`), el('h2', '', day.title));
-    heading.append(words, el('span', 'flower', '✿'));
+    heading.append(words, leaf());
     content.append(heading, el('p', 'journey-intro', new Intl.DateTimeFormat('zh-TW', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' }).format(new Date(day.date))));
     if (!day.items.length) {
       content.append(el('div', 'journey-empty card', '當日尚無行程。'));
@@ -93,7 +99,8 @@
       card.append(el('h3', '', item.title));
       if (item.note) card.append(el('p', '', item.note));
       if (item.mapQuery) {
-        const map = el('a', 'stop-map', '查看地圖 ↗');
+        const map = el('a', 'stop-map', '查看地圖');
+        map.append(HandDrawnIcons.create('pin'));
         map.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.mapQuery)}`;
         map.target = '_blank';
         map.rel = 'noopener noreferrer';
