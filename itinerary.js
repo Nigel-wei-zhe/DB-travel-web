@@ -98,8 +98,10 @@
       const row = el('li', 'day-stop');
       row.append(el('time', '', item.time || '彈性'));
       const card = el('article', 'stop-card card');
-      if (item.category) card.append(el('span', 'stop-category', categoryNames[item.category]));
-      card.append(el('h3', '', item.title));
+      const stopHeading = el('div', 'stop-heading');
+      if (item.category) stopHeading.append(el('span', 'stop-category', categoryNames[item.category]));
+      stopHeading.append(el('h3', '', item.title));
+      card.append(stopHeading);
       if (item.note) card.append(el('p', '', item.note));
       const actions = el('div', 'stop-actions');
       const stamp = el('button', 'stamp-button');
@@ -136,7 +138,7 @@
         }
         actions.append(map);
       }
-      actions.append(stamp);
+      card.append(stamp);
       card.append(actions);
       row.append(card);
       list.append(row);
