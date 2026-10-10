@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <rect width="900" height="560" rx="26" fill="#f4eee0"/>
+  <rect x="25" y="25" width="850" height="510" rx="18" fill="#fffdf6" stroke="#c3cbb0" stroke-width="2"/>
+  <rect x="46" y="46" width="808" height="468" rx="12" fill="none" stroke="#d6c5a9" stroke-width="2" stroke-dasharray="7 9"/>
+  <path d="M690 25v510" stroke="#d5d9c5" stroke-width="2" stroke-dasharray="7 9"/>
+  <g text-anchor="middle" fill="#748365" font-family="Arial, sans-serif">
+    <text x="360" y="155" font-size="24" letter-spacing="7">SAMPLE COUPON</text>
+    <text x="360" y="260" font-size="56" font-family="sans-serif">優惠券示範圖</text>
+    <text x="360" y="333" font-size="22" fill="#a1937c">請替換為實際店家圖檔</text>
+    <text x="360" y="433" font-size="20" fill="#a6a794">僅供預覽 · 無折扣效力 · 不可兌換</text>
+    <text x="773" y="288" transform="rotate(90 773 288)" font-size="22" letter-spacing="5" fill="#b8a382">PREVIEW ONLY</text>
+  </g>
+</svg>

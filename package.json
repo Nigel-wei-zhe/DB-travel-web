@@ -1,0 +1,6 @@
+{
+  "name": "little-travel-journal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": { "dev": "node dev-server.cjs", "check": "node --check app.js", "test": "node --test --test-isolation=none app.test.cjs trip-data.test.cjs" }
+}

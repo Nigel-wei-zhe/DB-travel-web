@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff0b8">
+  <title>旅日手帖 · 小小旅行日記</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v10h5v-6h4v6h5V10"/></symbol>
+    <symbol id="calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="3"/><path d="M8 3v5m8-5v5M4 11h16m-11 5h.01M14 16h.01"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><path d="M5 8h14l1 13H4L5 8Zm3 1V6a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="store" viewBox="0 0 24 24"><path d="M4 10v10h16V10M3 10l2-6h14l2 6M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0M9 20v-6h6v6"/></symbol>
+    <symbol id="ticket" viewBox="0 0 24 24"><path d="M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5Zm12 0v3m0 3v2m0 3v3"/></symbol>
+    <symbol id="pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+    <symbol id="maple-tab" viewBox="0 0 100 100"><path d="m50 6 9 22 10-9-1 21 19-8-5 17 13 5-18 14 5 10-25-3-3 17h-7l1-17-25 3 4-11L6 55l15-6-6-17 19 8-2-21 11 9Z"/></symbol>
+    <symbol id="refresh" viewBox="0 0 28 28"><path class="refresh-halo" d="M24.5 14.2c.2 5.9-4.7 10.5-10.6 10.3C7.8 24.7 3 20 3.3 13.8 3 7.9 7.9 3.2 14 3.5c6-.3 10.8 4.7 10.5 10.7Z"/><path d="M20.5 10.1C18.9 6.7 14.7 5.5 11.2 6.9 9 7.8 7.5 9.7 7.1 12m13.8 4c-.5 2.4-2.3 4.3-4.7 5-3.6 1.1-7.2-.4-8.8-3.4"/><path d="m16.9 10.7 3.9.3.5-3.9M11 17.1l-3.9-.2-.4 3.8"/></symbol>
+    <g id="weather-cloud-shape"><path d="M29 69c-13 0-19-12-13-22 3-5 8-7 14-6 1-13 12-22 24-19 10 1 17 9 18 18 10-5 24 0 26 11 3 10-4 18-15 19-17 1-36-1-54-1Z" fill="#e4e9df" stroke="#9cae9b"/><path d="M22 49c3-5 8-7 14-5 0-10 7-17 15-17" stroke="#fffdf5" stroke-width="3" opacity=".85"/><path d="M30 64c18 1 34 2 52 0" stroke="#cbd6c6" stroke-width="4" opacity=".45"/></g>
+    <symbol id="weather-sun" viewBox="0 0 120 100"><ellipse cx="60" cy="79" rx="22" ry="3" fill="#d5d8c4" opacity=".3" stroke="none"/><path d="M81 47c1 12-8 22-21 22-13 1-23-9-22-22-1-12 9-22 22-22 12-1 22 9 21 22Z" fill="#f3d68d" stroke="#c9aa6c"/><path d="M45 42c1-7 7-11 13-11" stroke="#fff4d0" stroke-width="3.5"/><path d="M60 13v-5m1 78-1-6M26 47l-6 1m80-2-6 1M36 22l-4-4m55 57 4 4M85 23l4-5M36 72l-4 5" stroke="#cfb377" stroke-width="2"/></symbol>
+    <symbol id="weather-moon" viewBox="0 0 120 100"><path d="M73 20c-15 0-28 11-28 27 0 17 13 29 29 28 9 0 17-4 22-11-18 3-32-10-31-27 0-7 3-13 8-17Z" fill="#f1dfaa" stroke="#bcad80"/><path d="m32 27 1 4 4 1-4 1-1 4-1-4-4-1 4-1Zm63 10 1 3 3 1-3 1-1 3-1-3-3-1 3-1Z" fill="#d9c894" stroke="none"/><path d="M53 55c2 9 8 14 17 15" stroke="#fff2cf" stroke-width="3"/></symbol>
+    <symbol id="weather-cloud" viewBox="0 0 120 100"><ellipse cx="60" cy="81" rx="32" ry="3" fill="#d5d8c4" opacity=".25" stroke="none"/><use href="#weather-cloud-shape" transform="translate(4 5)"/></symbol>
+    <symbol id="weather-partly-day" viewBox="0 0 120 100"><use href="#weather-sun" x="36" y="-8" width="80" height="70"/><use href="#weather-cloud-shape" transform="translate(0 10)"/></symbol>
+    <symbol id="weather-partly-night" viewBox="0 0 120 100"><use href="#weather-moon" x="32" y="-8" width="80" height="70"/><use href="#weather-cloud-shape" transform="translate(0 10)"/></symbol>
+    <symbol id="weather-fog" viewBox="0 0 120 100"><use href="#weather-cloud-shape" transform="translate(4 -4)"/><path d="M28 76c16-2 36 2 55 0M20 85c15-2 30 2 43 0m9 0h20" stroke="#b3bdab" stroke-width="2.5"/></symbol>
+    <symbol id="weather-drizzle" viewBox="0 0 120 100"><use href="#weather-cloud-shape" transform="translate(4 -5)"/><path d="m39 77-2 4m24-5-2 4m24-4-2 4" stroke="#9cbabd" stroke-width="2.5"/></symbol>
+    <symbol id="weather-rain" viewBox="0 0 120 100"><use href="#weather-cloud-shape" transform="translate(4 -5)"/><g fill="#b4cdd0" stroke="#93b2b8" stroke-width="1.2"><path d="M38 74c0 0-8 8-5 11 4 5 8-2 5-11Zm25 3s-8 8-5 11c4 5 8-2 5-11Zm24-3s-8 8-5 11c4 5 8-2 5-11Z"/></g></symbol>
+    <symbol id="weather-snow" viewBox="0 0 120 100"><use href="#weather-cloud-shape" transform="translate(4 -5)"/><path d="M37 75v12m-5-9 10 6m0-6-10 6m30-6v12m-5-9 10 6m0-6-10 6m30-12v12m-5-9 10 6m0-6-10 6" stroke="#a7c1c3" stroke-width="1.6"/></symbol>
+    <symbol id="weather-storm" viewBox="0 0 120 100"><use href="#weather-cloud-shape" transform="translate(4 -5)"/><path d="m61 61-10 16 9-1-4 16 17-22-10 2 6-11Z" fill="#eed394" stroke="#c4aa73"/><path d="m34 77-3 6m54-6-3 6" stroke="#a4bec0" stroke-width="2.5"/></symbol>
+  </defs></svg>
+  <div class="app-shell">
+    <header class="brand"><a href="#home" aria-label="旅日手帖首頁"><span class="brand-mark">旅</span> 旅日手帖<span class="brand-en">tabi journal</span></a><span class="preview-pill">PREVIEW</span></header>
+    <main>
+      <div id="home-page" class="page">
+        <section class="cover" aria-labelledby="trip-title">
+          <div class="cover-heading"><span class="stamp">日本<br><small>JAPAN</small></span></div>
+          <h1 id="trip-title">東京旅行</h1>
+          <div class="trip-meta"><span><svg><use href="#pin"/></svg>東京・日本</span><span>2026.11.12 — 11.16</span></div>
+          <svg class="cover-art" viewBox="0 0 420 160" role="img" aria-label="手繪日本街景、富士山與散步的小貓">
+            <g stroke="#686e5a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <path d="M5 144c80-10 137 5 208-3s128-4 201 2" fill="none"/>
+              <path d="m222 121 66-96 70 96" fill="#dce2d3" stroke="none"/><path d="m271 50 17-25 19 27-12-5-7 8-7-8Z" fill="#fffdf8" stroke="none"/>
+              <g fill="#fffdf8" stroke="none"><path d="M28 28c-3-12 13-17 19-7 10-7 23 2 19 11H28Z"/><path d="M333 22c-4-11 11-18 18-8 12-7 23 3 18 10h-36Z"/></g>
+              <circle cx="240" cy="28" r="13" fill="#ecc5a1" stroke="none"/>
+              <path d="M40 80h64v62H40Z" fill="#eee5d1"/><path d="m31 80 40-24 42 24Z" fill="#c5cdb8"/><path d="M49 93h17v19H49Zm29 0h17v19H78Z" fill="#faf7ef"/><path d="M65 142v-23h16v23" fill="#c5cdb8"/>
+              <path d="M115 68h72v75h-72Z" fill="#f4dfce"/><path d="m110 69 7-13h69l7 13Z" fill="#e3ac99"/><path d="M126 83h50v27h-50Z" fill="#fff9ec"/><path d="M151 83v27m-25-14h50"/><path d="M120 118h62v9h-62Z" fill="#c5cdb8"/><path d="M129 128v15m44-15v15"/>
+              <path d="M203 142v-31"/><path d="M193 111h20v14h-20Z" fill="#fff8e7"/><path d="M197 118h12"/>
+              <path d="M354 144v-41m0 18-11-10m11 0 12-10" fill="none"/><path d="M333 99c-13-16 5-30 16-20 4-15 24-10 24 3 17 1 17 24 1 27-11 10-25 8-30-1-12 4-21-5-11-9Z" fill="#c4d0af" stroke="none"/>
+              <path d="M282 139c-5-4-6-13-1-17l-1-10 9 6h8l8-6-1 12c5 7 3 15-2 18m-20-2c-12 4-18-2-13-8" fill="#f7e9d2"/><path d="M287 128h.1m11 0h.1m-7 4 2 2 2-2"/>
+              <path d="m229 141 6-3m83 6 5-2" fill="none"/>
+            </g>
+          </svg>
+          <div class="cover-foot"><span>5 DAYS / 4 NIGHTS</span></div>
+        </section>
+        <section class="weather card" aria-labelledby="weather-title">
+          <div class="card-top"><h3 id="weather-title"><svg><use href="#pin"/></svg>東京的天氣</h3><button class="refresh" id="weather-refresh" type="button" aria-label="重新整理天氣" title="重新整理天氣"><svg aria-hidden="true"><use href="#refresh"/></svg></button></div>
+          <div class="weather-main"><div><span class="temperature"><span id="weather-temp" class="temperature-value">—</span><span>°</span></span><p id="weather-description">正在讀取東京天氣…</p></div><svg id="weather-icon" class="live-weather-icon" viewBox="0 0 120 100" role="img" aria-label="天氣載入中"><use id="weather-glyph" href="#weather-cloud"/></svg></div>
+          <div class="weather-details"><span>最高 <b id="weather-high">—</b> / 最低 <b id="weather-low">—</b></span><span>今日降雨機率 <b id="weather-rain">—</b></span></div>
+          <p id="weather-status" class="data-note" role="status">正在載入…</p>
+        </section>
+        <section class="exchange card" aria-labelledby="exchange-title">
+          <div class="card-top"><h3 id="exchange-title"><span class="yen-icon">¥</span>旅途匯率換算</h3><button class="refresh" id="exchange-refresh" type="button" aria-label="重新整理匯率" title="重新整理匯率"><svg aria-hidden="true"><use href="#refresh"/></svg></button></div>
+          <p class="rate">1 JPY ≈ <strong id="exchange-rate">— TWD</strong></p>
+          <div class="converter"><label><span id="from-label">日圓 <b>JPY</b></span><input id="amount" type="number" min="0" max="999999999" step="any" inputmode="decimal" value="1000" aria-labelledby="from-label"></label><button id="swap" class="swap" aria-label="交換換算幣別">⇄</button><div class="converted"><span id="to-label">台幣 <b>TWD</b></span><output id="result" for="amount" aria-live="polite">—</output></div></div>
+          <p id="exchange-status" class="data-note" role="status">正在載入…</p>
+        </section>
+        <div class="section-heading itinerary-heading"><h2>今日行程</h2><a href="#itinerary">完整行程 <svg><use href="#arrow"/></svg></a></div>
+        <section class="itinerary card" aria-label="示範今日行程">
+          <div class="day-heading"><div class="day-badge">DAY<span>01</span></div><div><h3>抵達東京與市區行程</h3><p>11 月 12 日・星期四 <span>示範行程</span></p></div><span class="flower">✿</span></div>
+          <ol class="timeline"><li><time>10:30</time><div><h4>抵達成田機場</h4><p>領取行李，準備前往市區</p></div><a href="https://www.google.com/maps/search/?api=1&query=Narita+International+Airport" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看成田機場"><svg><use href="#pin"/></svg></a></li><li><time>14:00</time><div><h4>淺草散步・雷門</h4><p>參觀雷門與仲見世通</p></div><a href="https://www.google.com/maps/search/?api=1&query=Kaminarimon+Tokyo" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看雷門"><svg><use href="#pin"/></svg></a></li><li><time>17:30</time><div><h4>晴空塔下的晚餐</h4><p>晴空塔周邊用餐</p></div><a href="https://www.google.com/maps/search/?api=1&query=Tokyo+Skytree" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看晴空塔"><svg><use href="#pin"/></svg></a></li></ol>
+        </section>
+        <footer class="page-footer"><details class="credits"><summary>授權資訊</summary><p>Weather by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><br>天氣說明已轉為中文、溫度取整數。<br>匯率由 <a href="https://frankfurter.dev/" target="_blank" rel="noopener noreferrer">Frankfurter</a> 提供，每日參考匯率，非銀行報價。</p></details></footer>
+      </div>
+      <section id="itinerary-page" class="page" aria-label="每日行程" hidden>
+        <div id="date-filters" class="date-filters" role="group" aria-label="選擇行前或旅行日期"></div>
+        <div id="itinerary-content" class="journey-content">正在載入行程…</div>
+      </section>
+      <section id="shops-page" class="page" aria-label="精選店家" hidden><div id="shops-content">正在載入店家…</div></section>
+      <section id="offers-page" class="page" aria-label="優惠券" hidden><div id="coupons-content">正在載入優惠券…</div></section>
+    </main>
+    <nav class="bottom-nav" aria-label="主要導航"><a href="#home" data-page="home" aria-current="page"><svg><use href="#home"/></svg><span>首頁</span></a><a href="#itinerary" data-page="itinerary"><svg><use href="#calendar"/></svg><span>每日行程</span></a><a href="#shopping" data-page="shopping"><svg><use href="#store"/></svg><span>精選店家</span></a><a href="#offers" data-page="offers"><svg><use href="#ticket"/></svg><span>優惠</span></a></nav>
+  </div>
+  <dialog id="coupon-viewer" class="coupon-viewer" aria-labelledby="coupon-viewer-title"><header><h2 id="coupon-viewer-title">優惠券</h2><button type="button" id="coupon-close" aria-label="關閉優惠券">✕</button></header><div class="coupon-image-scroll"><img id="coupon-full-image" alt=""></div><a id="coupon-original" target="_blank" rel="noopener noreferrer">開啟原圖 ↗</a></dialog>
+  <script src="./trip-data.js"></script>
+  <script src="./app.js"></script>
+  <script src="./itinerary.js"></script>
+  <script src="./shops.js"></script>
+  <script src="./coupons.js"></script>
+</body>
+</html>
