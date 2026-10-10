@@ -353,18 +353,19 @@ svg.live-weather-icon { width: 96px; height: 80px; }
   --home-title-radius: 10px;
 }
 #home-page .cover h1 {
-  width: fit-content;
-  max-width: 100%;
-  padding: 4px 14px;
-  border-radius: var(--home-title-radius);
+  width: auto;
+  max-width: none;
+  margin: calc(-1 * var(--home-cover-top)) calc(-1 * var(--home-cover-side)) 10px;
+  padding: 2px 70px 2px var(--home-cover-side);
+  border-radius: 17px 17px 0 0;
   background: var(--home-title-gold);
   color: var(--home-title-coffee);
   overflow-wrap: anywhere;
 }
 #home-page .card-top {
-  padding: 8px 12px;
-  margin: -2px -4px 12px;
-  border-radius: var(--home-title-radius);
+  padding: 0 16px;
+  margin: -14px -16px 8px;
+  border-radius: 14px 14px 0 0;
   background: var(--home-title-cream);
 }
 #home-page .weather .card-top { background: var(--home-title-gold); }
@@ -381,7 +382,7 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 #home-page .card-top h3 svg,
 #home-page .card-top .yen-icon { flex-shrink: 0; }
 #home-page .card-top .yen-icon { border-color: currentColor; }
-#home-page .card-top .refresh { flex-shrink: 0; margin: -2px -4px -2px 0; }
+#home-page .card-top .refresh { flex-shrink: 0; margin: 0 -4px 0 0; }
 #home-page .card-top .refresh-halo {
   fill: var(--home-title-cream);
   stroke: var(--home-title-coffee);
@@ -389,15 +390,16 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 #home-page .card-top .refresh:hover { background: var(--home-title-sage); }
 #home-page .card-top .refresh:hover .refresh-halo { fill: var(--home-title-gold); }
 #home-page .itinerary-heading h2 {
-  padding: 8px 12px;
+  padding: 4px 12px;
   border-radius: var(--home-title-radius);
   background: var(--home-title-sage);
   color: var(--home-title-forest);
   font-size: calc(19px * var(--fs, 1));
 }
 #home-page .day-heading {
-  padding: 12px;
-  border-radius: var(--home-title-radius);
+  margin: -18px -18px 0;
+  padding: 6px 18px;
+  border-radius: 14px 14px 0 0;
   background: var(--home-title-sage);
 }
 #home-page .day-heading > div:nth-child(2) { min-width: 0; }
@@ -409,3 +411,21 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 }
 #home-page .day-heading p { color: var(--home-title-coffee); }
 #home-page .day-heading .flower { display: none; }
+
+#home-page .cover { --home-cover-top: 23px; --home-cover-side: 22px; }
+#home-page .cover-heading {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  height: auto;
+}
+#home-page .cover .stamp {
+  color: var(--home-title-coffee);
+  border-color: currentColor;
+  outline-color: currentColor;
+}
+@media (max-width: 360px) {
+  #home-page .cover { --home-cover-top: 20px; --home-cover-side: 17px; }
+  #home-page .day-heading { margin: -15px -15px 0; padding: 6px 15px; }
+}
+
