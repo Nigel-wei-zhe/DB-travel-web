@@ -355,10 +355,9 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 #home-page .cover h1 {
   width: auto;
   max-width: none;
-  margin: calc(-1 * var(--home-cover-top)) calc(-1 * var(--home-cover-side)) 10px;
-  padding: 2px 70px 2px var(--home-cover-side);
-  border-radius: 17px 17px 0 0;
-  background: var(--home-title-gold);
+  margin: 0 0 10px;
+  padding: 0 48px 0 0;
+  background: transparent;
   color: var(--home-title-coffee);
   overflow-wrap: anywhere;
 }
@@ -412,7 +411,6 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 #home-page .day-heading p { color: var(--home-title-coffee); }
 #home-page .day-heading .flower { display: none; }
 
-#home-page .cover { --home-cover-top: 23px; --home-cover-side: 22px; }
 #home-page .cover-heading {
   position: absolute;
   top: 8px;
@@ -425,7 +423,26 @@ svg.live-weather-icon { width: 96px; height: 80px; }
   outline-color: currentColor;
 }
 @media (max-width: 360px) {
-  #home-page .cover { --home-cover-top: 20px; --home-cover-side: 17px; }
   #home-page .day-heading { margin: -15px -15px 0; padding: 6px 15px; }
 }
 
+/* 首頁內容區統一白底，標題保留跳色。 */
+:root { --home-card-surface: #ffffff; }
+#home-page .cover,
+#home-page .card,
+#home-page .exchange .converter label,
+#home-page .exchange .converted { background: var(--home-card-surface); }
+#home-page .trip-meta,
+#home-page .cover-foot,
+#home-page .weather-main p,
+#home-page .weather-details,
+#home-page .weather .data-note,
+#home-page .exchange .rate,
+#home-page .exchange .data-note { color: var(--muted); }
+#home-page .weather .temperature,
+#home-page .weather-details b { color: var(--home-title-forest); }
+#home-page .exchange .rate strong,
+#home-page .exchange .swap { color: var(--home-title-coffee); }
+#home-page .weather .data-error,
+#home-page .exchange .data-error { color: var(--maple); }
+#home-page .timeline li::before { border-color: var(--home-card-surface); }
