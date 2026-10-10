@@ -1,3 +1,5 @@
+const APP_VERSION = '2026.10.10.1';
+document.querySelector('#app-version').textContent = APP_VERSION;
 const amount = document.querySelector('#amount');
 const result = document.querySelector('#result');
 let reversed = false;

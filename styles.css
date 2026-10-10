@@ -424,3 +424,6 @@ svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; 
 .stop-card { position: relative; }
 .stop-heading { padding-right: 58px; min-height: 56px; }
 .stamp-button[aria-pressed="true"] > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.app-version, .page-footer .app-version > span { display: inline; font: calc(15px * var(--fs, 1)) system-ui; color: var(--coffee); letter-spacing: normal; }
+.app-version { display: block; margin: 0 0 16px; }
