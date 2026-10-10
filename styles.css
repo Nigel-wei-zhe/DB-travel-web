@@ -315,8 +315,8 @@ svg.fukuoka-art { width: calc(100% + 32px); height: auto; margin: 4px -16px 0; }
   .cover-subtitle { font-size: calc(15px * var(--fs, 1)); }
 }
 
-/* 淺色手帖封面與共用日式手繪圖示。 */
-:root { --cover-surface: color-mix(in srgb, var(--paper) 35%, var(--surface)); }
+/* 白底手帖封面與共用日式手繪圖示。 */
+:root { --cover-surface: var(--surface); }
 #home-page .cover { background: var(--cover-surface); }
 .bottom-nav svg { width: 25px; height: 25px; stroke-width: 1.55; }
 .bottom-nav a:nth-child(odd) svg { transform: rotate(-3deg); }
