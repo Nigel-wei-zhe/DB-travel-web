@@ -209,7 +209,7 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 
 /* 全站配色單一來源：方案一米白底、磚紅、墨綠、咖啡與白色。 */
 :root {
-  --paper: #F3EBDD;
+  --paper: #F8F3EB;
   --brick: #8B3A2E;
   --forest: #1F3D33;
   --coffee: #6B4F3B;
@@ -344,3 +344,21 @@ svg.fukuoka-art { width: calc(100% + 32px); height: auto; margin: 4px -16px 0; }
 .bottom-nav a[aria-current] { box-shadow: inset 0 -3px 0 var(--maple-yellow); }
 .coupon-card:nth-child(3n) { border-top-color: var(--maple-yellow); }
 svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; }
+
+/* 更輕的紙色與分散的楓黃細節。 */
+:root { --maple-soft: color-mix(in srgb, var(--maple-yellow) 24%, var(--surface)); }
+#home-page .itinerary-heading h2 { background: transparent; color: var(--forest); padding: 0; border-radius: 0; }
+#home-page .day-badge { background: var(--maple-yellow); color: var(--forest); }
+#home-page .exchange .card-top { border-bottom: 3px solid var(--maple-yellow); }
+#home-page .exchange .converter label { border-color: var(--maple-yellow); }
+#home-page .exchange .converted { border-color: var(--maple-yellow); }
+#home-page .timeline li::before { background: var(--maple-yellow); box-shadow: 0 0 0 1px var(--coffee); }
+.date-chip { border-color: var(--maple-yellow); }
+.date-chip:hover { background: var(--maple-soft); }
+.date-chip[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--maple-soft); }
+.check-group h3 { border-left: 3px solid var(--maple-yellow); padding-left: 8px; }
+.check-overview progress::-webkit-progress-value { background: var(--maple-yellow); }
+.check-overview progress::-moz-progress-bar { background: var(--maple-yellow); }
+.shop-tag:nth-child(3n) { background: var(--maple-yellow); color: var(--forest); border-color: var(--maple-yellow); }
+.shop-group-heading h2 { text-decoration: underline; text-decoration-color: var(--maple-yellow); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.coupon-card { border-top-color: var(--maple-yellow); }
