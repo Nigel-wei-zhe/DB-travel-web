@@ -110,7 +110,15 @@
         const done = TripVisits.has(item.id);
         stamp.setAttribute('aria-pressed', String(done));
         stamp.setAttribute('aria-label', `${done ? '取消' : ''}${item.title}的蓋章`);
-        stamp.replaceChildren(HandDrawnIcons.create(done ? 'kuromi-stamp' : 'stamp-hand'), el('span', '', done ? '取消蓋章' : '蓋章'));
+        const artwork = done ? el('img', 'stamp-art') : HandDrawnIcons.create('stamp-hand');
+        if (done) {
+          artwork.src = './assets/stamps/kuromi-maple.png';
+          artwork.alt = '';
+          artwork.width = 52;
+          artwork.height = 52;
+          artwork.setAttribute('aria-hidden', 'true');
+        }
+        stamp.replaceChildren(artwork, el('span', '', done ? '取消蓋章' : '蓋章'));
         card.classList.toggle('is-visited', done);
       };
       updateStamp();

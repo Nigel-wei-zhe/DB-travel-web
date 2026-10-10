@@ -49,4 +49,4 @@
 
 Leaflet 1.9.4 放在 `vendor/leaflet/`，採 BSD-2-Clause，授權檔同目錄；不透過 CDN 載入程式。底圖保留 OpenStreetMap 來源標示。首頁移除自動生成的標語，`AGENTS.md` 與 `DESIGN.md` 已加入不產生標語的規範。
 
-每日行程卡片可蓋章、取消蓋章，完成圖案為自繪 SVG 酷洛米與楓葉髮飾。`visits.js` 依旅程 ID 與行程項目 ID 將紀錄保存在 localStorage，與行前清單分開；無法保存時顯示提示。地圖以外框及「已蓋章」文字標示完成地點。
+每日行程卡片可蓋章、取消蓋章，完成圖案改用使用者提供的酷洛米原圖編輯：去除身體與背景，加入楓葉髮飾，存放於 `assets/stamps/kuromi-maple.png`。`visits.js` 依旅程 ID 與行程項目 ID 將紀錄保存在 localStorage，與行前清單分開；無法保存時顯示提示。地圖以外框及「已蓋章」文字標示完成地點。
