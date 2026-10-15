@@ -2,6 +2,8 @@
 
 所有資料採 UTF-8 JSONL：每個非空行是一個完整 JSON 物件，不要加外層陣列、行尾逗號或註解。可使用 LF / CRLF 與 UTF-8 BOM，空白行忽略。修改 JSONL 後重新整理網站，無須編譯。
 
+若要先在 Google 試算表編輯行程與店家，可匯入 [`templates/` 的三份 CSV 範本](../templates/README.md)。CSV 是編輯來源，網站仍讀取本目錄的 JSONL；同步時須依範本說明轉換並驗證。
+
 ## itinerary.jsonl
 
 第一行為 trip，後續每行為 day，至少一天。日期自動排序，行程項目維持陣列順序。
