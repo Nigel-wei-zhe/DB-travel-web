@@ -1,0 +1,43 @@
+name: 同步 Google 試算表
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-google-sheets-dev
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAGES_PUSH_TOKEN || github.token }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: 驗證試算表轉換規則
+        run: node --test scripts/sheet-data.test.cjs
+      - name: 讀取試算表並驗證資料
+        env:
+          SHEET_URL: ${{ secrets.sheet_url }}
+        run: node scripts/sync-google-sheets.cjs
+      - name: 提交更新
+        run: |
+          git add data/itinerary.jsonl data/shops.jsonl
+          if git diff --cached --quiet; then
+            echo '資料沒有變更。'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m '資料：同步 Google 試算表行程與店家'
+          git push origin HEAD:dev

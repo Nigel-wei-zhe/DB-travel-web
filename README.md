@@ -20,7 +20,7 @@
 
 替換 `data/itinerary.jsonl` 與 `data/checklist.jsonl` 後重新整理即可。欄位與規則詳見 [資料格式](data/FORMAT.md)。檢查表勾選保存在當前裝置，依旅行 ID 分開。首頁目的地、標題、副標題、日期與天氣讀取 trip 設定。目前主視覺為福岡秋日旅行，既有東京行程與虛構店家仍保留為示範，尚未替換為福岡行程。旅行與項目 ID 保留以延用本機紀錄。
 
-若要先在 Google 試算表填寫行程與精選店家，可使用 [CSV 範本與同步欄位說明](templates/README.md)。試算表資料需轉成 JSONL 後才會顯示在網站；目前尚未設定自動同步。
+若要先在 Google 試算表填寫行程與精選店家，可使用 [中文 CSV 範本與同步說明](templates/README.md)。推送到 `dev` 時，GitHub Action 會讀取試算表、驗證並更新 JSONL；試算表編輯本身不會觸發同步。
 
 驗證：`node --test --test-isolation=none app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs`。
 
