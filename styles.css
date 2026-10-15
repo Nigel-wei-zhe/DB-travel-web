@@ -427,3 +427,14 @@ svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; 
 
 .app-version, .page-footer .app-version > span { display: inline; font: calc(15px * var(--fs, 1)) system-ui; color: var(--coffee); letter-spacing: normal; }
 .app-version { display: block; margin: 0 0 16px; }
+
+/* 首頁行程預覽改讀真實資料：放大文字以利戶外閱讀。 */
+#home-preview .timeline time { font-size: calc(15px * var(--fs, 1)); min-width: calc(48px * var(--fs, 1)); padding-top: 0; }
+#home-preview .timeline h4 { font-size: calc(16px * var(--fs, 1)); line-height: 1.5; }
+#home-preview .timeline p { font-size: calc(15px * var(--fs, 1)); line-height: 1.6; }
+#home-preview .timeline li { min-height: 0; padding-bottom: 16px; }
+#home-preview .timeline li > div { min-width: 0; overflow-wrap: anywhere; }
+#home-preview .timeline li::before { top: 9px; }
+#home-preview > .data-note, #home-preview > .load-error { font-size: calc(15px * var(--fs, 1)); line-height: 1.6; margin: 16px 0 0; }
+.preview-more { display: flex; align-items: center; min-height: 48px; margin-top: 4px; color: var(--brick); font-size: calc(15px * var(--fs, 1)); font-weight: 500; }
+.preview-more:focus-visible { outline: 2px solid var(--forest); outline-offset: 2px; }

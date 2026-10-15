@@ -19,6 +19,14 @@ test('selection follows destination date before, during and after travel', () =>
   assert.equal(defaultSelection(days, '2026-11-20'), '2026-11-16');
   assert.equal(today('Asia/Tokyo', new Date('2026-11-11T15:30:00Z')), '2026-11-12');
 });
+test('home preview shows first day before, today during and last day after travel', () => {
+  const { previewDay } = require('./trip-data.js');
+  const days = ['2026-11-21', '2026-11-22', '2026-11-24'].map(date => ({ date }));
+  assert.equal(previewDay(days, '2026-10-15').date, '2026-11-21');
+  assert.equal(previewDay(days, '2026-11-22').date, '2026-11-22');
+  assert.equal(previewDay(days, '2026-11-23').date, '2026-11-22');
+  assert.equal(previewDay(days, '2026-12-01').date, '2026-11-24');
+});
 test('invalid dates and duplicated IDs are rejected', () => {
   assert.throws(() => parseItinerary(itinerary.replace('2026-11-12', '2026-02-30')), /有效/);
   assert.throws(() => parseItinerary(itinerary.replace('day1-asakusa', 'day1-airport')), /ID 重複/);

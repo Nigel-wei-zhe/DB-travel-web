@@ -64,6 +64,10 @@
     if (date < days[0].date) return 'pretrip';
     return [...days].reverse().find(day => day.date <= date).date;
   }
+  // 首頁預覽：出發前顯示第一天，旅行中顯示當天，結束後顯示最後一天。
+  function previewDay(days, date) {
+    return [...days].reverse().find(day => day.date <= date) || days[0];
+  }
   function parseShops(source) {
     const groups = parseJSONL(source, '店家檔');
     const groupIds = new Set();
@@ -92,7 +96,7 @@
     }
     return coupons;
   }
-  const api = { parseItinerary, parseChecklist, parseShops, parseCoupons, today, defaultSelection };
+  const api = { parseItinerary, parseChecklist, parseShops, parseCoupons, today, defaultSelection, previewDay };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.TripData = api;
 })(globalThis);

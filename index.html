@@ -141,11 +141,8 @@
           <div class="converter"><label><span id="from-label">日圓 <b>JPY</b></span><input id="amount" type="number" min="0" max="999999999" step="any" inputmode="decimal" value="1000" aria-labelledby="from-label"></label><button id="swap" class="swap" aria-label="交換換算幣別"><svg aria-hidden="true"><use href="#swap-hand"/></svg></button><div class="converted"><span id="to-label">台幣 <b>TWD</b></span><output id="result" for="amount" aria-live="polite">—</output></div></div>
           <p id="exchange-status" class="data-note" role="status">正在載入…</p>
         </section>
-        <div class="section-heading itinerary-heading"><h2>行程預覽</h2><a href="#itinerary">完整行程 <svg><use href="#arrow"/></svg></a></div>
-        <section class="itinerary card" aria-label="示範今日行程">
-          <div class="day-heading"><div class="day-badge">DAY<span>01</span></div><div><h3>抵達東京與市區行程</h3><p>11 月 12 日・星期四 <span>東京示範資料</span></p></div><span class="flower" aria-hidden="true"><svg><use href="#leaf-hand"/></svg></span></div>
-          <ol class="timeline"><li><time>10:30</time><div><h4>抵達成田機場</h4><p>領取行李，準備前往市區</p></div><a href="https://www.google.com/maps/search/?api=1&query=Narita+International+Airport" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看成田機場"><svg><use href="#pin"/></svg></a></li><li><time>14:00</time><div><h4>淺草散步・雷門</h4><p>參觀雷門與仲見世通</p></div><a href="https://www.google.com/maps/search/?api=1&query=Kaminarimon+Tokyo" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看雷門"><svg><use href="#pin"/></svg></a></li><li><time>17:30</time><div><h4>晴空塔下的晚餐</h4><p>晴空塔周邊用餐</p></div><a href="https://www.google.com/maps/search/?api=1&query=Tokyo+Skytree" target="_blank" rel="noopener noreferrer" aria-label="在 Google 地圖查看晴空塔"><svg><use href="#pin"/></svg></a></li></ol>
-        </section>
+        <div class="section-heading itinerary-heading"><h2>行程預覽</h2><a id="home-preview-link" href="#itinerary">完整行程 <svg><use href="#arrow"/></svg></a></div>
+        <section id="home-preview" class="itinerary card" aria-label="行程預覽" aria-live="polite"><p class="data-note">正在載入行程…</p></section>
         <footer class="page-footer"><p class="app-version">版本 <span id="app-version"></span></p><details class="credits"><summary>授權資訊</summary><p>Weather by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><br>天氣說明已轉為中文、溫度取整數。<br>匯率由 <a href="https://frankfurter.dev/" target="_blank" rel="noopener noreferrer">Frankfurter</a> 提供，每日參考匯率，非銀行報價。</p></details></footer>
       </div>
       <section id="itinerary-page" class="page" aria-label="每日行程" hidden>
@@ -170,6 +167,7 @@
   <script src="./icons.js"></script>
   <script src="./trip-data.js"></script>
   <script src="./app.js"></script>
+  <script src="./home-preview.js"></script>
   <script src="./visits.js"></script>
   <script src="./itinerary.js"></script>
   <script src="./shops.js"></script>
