@@ -3,3 +3,6 @@ node_modules/
 .env.*
 !.env.example
 *.log
+
+# 字型原始檔（不進 repo）
+tools/.font-src/
