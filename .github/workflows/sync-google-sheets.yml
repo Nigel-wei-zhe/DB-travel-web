@@ -1,24 +1,34 @@
+# 從 Google 試算表同步行程與店家資料。
+# 到 GitHub 的 Actions → 同步 Google 試算表 → Run workflow 手動執行。
+# 不會直接改 dev（push 到 dev 會立刻部署到 GitHub Pages）：
+# 有變動時，以當下 dev 為基底重建 sync-sheet 分支（每次強制覆蓋）並推上去，
+# 執行結果頁面附預覽連結；確認沒問題後，在本機執行 sh tools/merge-dev.sh sync-sheet 合回 dev。
+# 刪除量檢查（行程項目、店家各自計算）在 scripts/sheet-data.cjs 的 deletionProblems：
+# 刪除超過 10 筆，或刪除至少 3 筆且超過既有筆數的 20%，預設拒絕，勾選 allow_delete 才放行。
 name: 同步 Google 試算表
 
 on:
-  push:
-    branches: [dev]
   workflow_dispatch:
+    inputs:
+      allow_delete:
+        description: 允許一次刪除很多行程項目或店家（確定試算表是對的才勾）
+        type: boolean
+        default: false
 
 permissions:
   contents: write
 
 concurrency:
-  group: sync-google-sheets-dev
+  group: sync-google-sheets
   cancel-in-progress: false
 
 jobs:
   sync:
-    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: dev
           token: ${{ secrets.PAGES_PUSH_TOKEN || github.token }}
           persist-credentials: true
       - uses: actions/setup-node@v4
@@ -30,14 +40,53 @@ jobs:
         env:
           SHEET_URL: ${{ secrets.sheet_url }}
         run: node scripts/sync-google-sheets.cjs
-      - name: 提交更新
+      - name: 統計變動與檢查刪除量
+        id: report
+        env:
+          ALLOW_DELETE: ${{ inputs.allow_delete }}
         run: |
-          git add data/itinerary.jsonl data/shops.jsonl
-          if git diff --cached --quiet; then
-            echo '資料沒有變更。'
-            exit 0
+          flag=''
+          if [ "$ALLOW_DELETE" = 'true' ]; then flag='--allow-delete'; fi
+          status=0
+          node scripts/sync-report.cjs "$RUNNER_TEMP/report.md" $flag || status=$?
+          cat "$RUNNER_TEMP/report.md" >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - name: 檢查資料格式
+        if: steps.report.outputs.changed == 'true'
+        run: |
+          if [ -f tools/check-data.cjs ]; then
+            node tools/check-data.cjs
+          else
+            echo 'tools/check-data.cjs 不存在，略過。'
           fi
+      - name: 推到 sync-sheet 預覽分支
+        if: steps.report.outputs.changed == 'true'
+        run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -C sync-sheet
+          git add data/itinerary.jsonl data/shops.jsonl
           git commit -m '資料：同步 Google 試算表行程與店家'
-          git push origin HEAD:dev
+          # 只強制覆蓋 sync-sheet，並用 --force-with-lease 確認遠端仍是剛剛看到的版本。
+          if git fetch origin sync-sheet; then
+            lease="$(git rev-parse FETCH_HEAD)"
+          else
+            lease=''
+          fi
+          git push --force-with-lease="sync-sheet:$lease" origin HEAD:refs/heads/sync-sheet
+          sha="$(git rev-parse HEAD)"
+          {
+            echo '### 預覽'
+            echo "https://raw.githack.com/${GITHUB_REPOSITORY}/${sha}/index.html"
+            echo ''
+            echo "預覽版本：\`${sha}\`（分支 \`sync-sheet\`）。"
+            echo ''
+            echo '確認沒問題後，在本機執行：'
+            echo ''
+            echo '```sh'
+            echo 'sh tools/merge-dev.sh sync-sheet'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: 沒有變動
+        if: steps.report.outputs.changed == 'false'
+        run: echo '資料沒有變更，沒有推送任何分支。'
