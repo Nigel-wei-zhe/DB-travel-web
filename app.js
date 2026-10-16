@@ -1,4 +1,4 @@
-const APP_VERSION = '2026.10.16.1';
+const APP_VERSION = '2026.10.16.2';
 const amount = document.querySelector('#amount');
 const result = document.querySelector('#result');
 let reversed = false;

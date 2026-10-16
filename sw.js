@@ -1,5 +1,5 @@
 // 旅日手帖 Service Worker。VERSION 由 tools/merge-dev.sh 在合回 dev 時設為與 APP_VERSION 相同，功能分支不用手動遞增。
-const VERSION = '2';
+const VERSION = '2026.10.16.2';
 
 // 離線需要的本機檔案，一律用相對路徑；新增檔案要同步加入。
 const CORE_FILES = [
