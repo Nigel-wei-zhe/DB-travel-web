@@ -22,7 +22,15 @@
 
 若要先在 Google 試算表填寫行程與精選店家，可使用 [中文 CSV 範本與同步說明](templates/README.md)。推送到 `dev` 時，GitHub Action 會讀取試算表、驗證並更新 JSONL；試算表編輯本身不會觸發同步。
 
-驗證：`node --test --test-isolation=none app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs`。
+驗證：`node --test --test-isolation=none app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs`。
+
+## 加入主畫面與離線
+
+- 以 `manifest.webmanifest` 與 `sw.js` 支援加入主畫面。Service Worker 需 HTTPS 或 localhost，不能用 `file://`。
+- 離線可用：頁面、樣式、程式、地圖程式庫、行程／清單／店家／優惠資料、優惠券圖片、蓋章圖。HTML 與 `data/` 網路優先（4 秒逾時退回快取），其他本機檔案快取優先；跨網域請求不經快取。
+- 有限制：Google Fonts 仍走網路，離線時改用系統字體；天氣、匯率需網路（匯率沿用 localStorage 快取並標示時間）；地圖底圖圖磚需網路，離線只看得到圖釘。因此不宣稱完整離線可用。
+- 快取名稱含 `VERSION` 與網站路徑，各 commit 預覽路徑互不影響。改動任何快取資源或新增檔案時，要同步更新 `CORE_FILES` 並遞增 `sw.js` 的 `VERSION`。
+- 偵測到新版本時畫面顯示「有新版本」與「更新」，按下才重新載入。
 
 ## 首頁資料來源
 

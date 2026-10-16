@@ -186,3 +186,43 @@ document.querySelector('#weather-refresh').addEventListener('click', () => homeR
 document.querySelector('#exchange-refresh').addEventListener('click', () => loadData('exchange', true));
 initializeHome();
 loadData('exchange');
+
+// PWA：註冊 Service Worker；有新版本時提示，由使用者按「更新」才重新載入。
+function showUpdateNotice(worker) {
+  if (document.querySelector('#update-notice')) return;
+  const box = document.createElement('div');
+  box.id = 'update-notice';
+  box.className = 'update-notice';
+  box.setAttribute('role', 'status');
+  const text = document.createElement('span');
+  text.textContent = '有新版本';
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = '更新';
+  button.addEventListener('click', () => {
+    button.disabled = true;
+    button.textContent = '更新中…';
+    worker.postMessage({ type: 'SKIP_WAITING' });
+  });
+  box.append(text, button);
+  document.body.append(box);
+}
+if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').then(registration => {
+      const watch = worker => worker.addEventListener('statechange', () => {
+        // 有舊版在控制頁面時，新 worker 裝好才算「有新版本」。
+        if (worker.state === 'installed' && navigator.serviceWorker.controller) showUpdateNotice(worker);
+      });
+      if (registration.waiting && navigator.serviceWorker.controller) showUpdateNotice(registration.waiting);
+      registration.addEventListener('updatefound', () => registration.installing && watch(registration.installing));
+    }).catch(() => {});
+    let reloading = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      // 只在使用者按下「更新」後重新載入，避免第一次安裝時打斷使用。
+      if (reloading || !document.querySelector('#update-notice')) return;
+      reloading = true;
+      location.reload();
+    });
+  });
+}
