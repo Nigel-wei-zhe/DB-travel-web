@@ -6,13 +6,14 @@
 
 ## 分支與部署
 
-- `origin`：`Nigel-wei-zhe/DB-travel-web`。沒有 `upstream`，不向 FUKUOKA 原作者開 PR。
+- 沒有 `upstream`，不向 FUKUOKA 原作者開 PR。個人的 remote、預覽網址與腳本測試習慣寫在 `CLAUDE.local.md`（不進 git）。
 - **開發都在 `dev` 分支**；若尚未存在，從目前 `main` 建立。`main` 保留穩定版本，不直接開發。
 - **小功能先開功能分支**：從 `dev` 開 `feat-<名稱>`（不用 `/`）。push 到 `origin`、確認後再合回 `dev`，避免多個功能互相覆蓋。
-- 儲存庫已依使用者授權公開。每次 push 功能後提供含完整 commit SHA 的手機預覽網址：`https://raw.githack.com/Nigel-wei-zhe/DB-travel-web/<commit sha>/index.html`。githack 只供個人預覽，不當正式網址分享；若未來改為私人，需改提供可存取的預覽方式，不得擅自再次公開。
+- 儲存庫已依使用者授權公開。每次 push 功能後提供含完整 commit SHA 的手機預覽網址（格式見 `CLAUDE.local.md`）；githack 只供個人預覽，不當正式網址分享；若未來改為私人，需改提供可存取的預覽方式，不得擅自再次公開。
 - GitHub Pages 採 `dev` 分支根目錄（Deploy from a branch），網址為 `https://nigel-wei-zhe.github.io/DB-travel-web/`。push 到 `origin/dev` 會觸發部署；需確認部署成功，不能只憑 push 成功判定網站已更新。
-- **合回 `dev` 時更新版本號**：採 `日期.當天第幾次`，例如 `2026.10.10.2`。版本號以 `app.js` 的 `APP_VERSION` 為單一來源，顯示於設定 sheet 底部；每次合併均更新，讓使用者能確認版本。
-- **合回 `dev` 後清掉功能分支**：用 `git branch --merged dev` 確認完整合併後，再刪除本機與 `origin` 的對應功能分支，保留 `main`、`dev`。不要刪除他人或尚未合併的工作。
+- **合回 `dev` 時更新版本號**：採 `日期.當天第幾次`，例如 `2026.10.10.2`。版本號以 `app.js` 的 `APP_VERSION` 為單一來源，顯示於設定 sheet 底部；每次合併均更新，讓使用者能確認版本。`sw.js` 的 `VERSION` 在合併時由腳本設為同一字串，功能分支不用手動遞增。
+- **合回 `dev` 一律用 `sh tools/merge-dev.sh [分支…]`**：同步 dev、rebase、只用 fast-forward 合併、語法與測試與資料檢查、更新版本號、push、刪除已完整合併的本機與 `origin` 分支、確認 GitHub Pages 部署。多個分支一起合，版本號只加一次；`--dry-run` 只預覽，`--no-wait` 不等部署。rebase 有衝突時會自動還原，解完再跑一次。結尾若印「尚未確認部署」，要自行到 Actions／Pages 確認，不能當成已更新。保留 `main`、`dev`，不要刪除他人或尚未合併的工作。
+- **試算表同步不直接改 `dev`**：到 Actions 手動執行「同步 Google 試算表」，結果會推到 `sync-sheet` 預覽分支（每次強制覆蓋），執行結果頁有變動統計與預覽連結；確認後用 `sh tools/merge-dev.sh sync-sheet` 合回。刪除過多時預設拒絕，確認試算表正確再勾選 `allow_delete` 重跑。
 - 發布穩定版本前先確認 `main` 最新狀態，在 `dev` 解決衝突並驗證，再同步至 `main`。
 
 ## 檔案地圖
@@ -35,9 +36,15 @@
 - `dev-server.cjs`：本機靜態伺服器。
 - `sw.js`：Service Worker；頂端集中 `VERSION`、`CORE_FILES`、網路優先清單。
 - `manifest.webmanifest`、`icons/`：加入主畫面設定與圖示（`icon.svg`、`maskable.svg` 為 PNG 來源）。
-- `app.test.cjs`、`trip-data.test.cjs`、`sw.test.cjs`：公開 API 行為、資料驗證與離線檔案清單測試。
+- `fonts/`：Noto Sans TC、Noto Serif TC 子集（`.woff2`）、`subset-chars.txt`（收錄字元）、`LICENSE.md` 與 OFL 授權檔。
+- `tools/check-data.cjs`：檢查 `data/` 格式、ID、優惠券圖檔，提醒空日與缺座標。
+- `tools/subset-font.py`、`tools/check-font.cjs`：重新產生字型子集、檢查缺字；`tools/.font-src/` 放原始字型，不進 git。
+- `tools/shot.mjs`：無頭 Chrome 截 360px 手機畫面，可並排多個字級與主題；不需安裝套件，圖片不 commit。
+- `tools/merge-dev.sh`：合回 `dev` 的流程腳本。
+- `scripts/`、`.github/workflows/`：試算表同步（`sync-google-sheets.yml` 推到 `sync-sheet`）與自動測試（`test.yml`）。
+- `app.test.cjs`、`trip-data.test.cjs`、`maps.test.cjs`、`visits.test.cjs`、`sw.test.cjs`、`check-data.test.cjs`：公開 API 行為、資料驗證、離線檔案清單與資料檢查指令測試；測試只讀 `test-fixtures/`，不讀會隨試算表變動的 `data/`。
 
-已有共用設定入口（頁首「設定」按鈕）與設定 sheet，提供字級（標準／大／特大）與日夜模式（跟隨系統／白天／夜間）；「加入主畫面」區塊已預留但尚未實作。已有 Service Worker 與 manifest（新增檔案須加入 `CORE_FILES` 並遞增 `VERSION`）。目前沒有本機字型子集。以下相關規則是新增這些能力時的要求，不代表它們已存在；不要呼叫不存在的工具或函式。
+已有共用設定入口（頁首「設定」按鈕）與設定 sheet，提供字級（標準／大／特大）與日夜模式（跟隨系統／白天／夜間）；「加入主畫面」區塊已預留但尚未實作。已有 Service Worker、manifest 與本機字型子集（新增檔案須加入 `CORE_FILES`）。以下規則中未列在檔案地圖的功能尚未存在；不要呼叫不存在的工具或函式。
 
 ## 常用指令
 
@@ -46,8 +53,16 @@ node dev-server.cjs
 # 預覽：http://127.0.0.1:5173/，不要直接用 file:// 開啟
 
 node --check app.js
-node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs
+node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs check-data.test.cjs
+node --test scripts/sheet-data.test.cjs   # 試算表轉換與同步
+
+node tools/check-data.cjs                 # 改過 data/ 或同步試算表後；有錯誤結束代碼 1
+node tools/check-font.cjs                 # 資料、HTML、JS 字串有新字時；缺字就跑 python3 tools/subset-font.py（需 pip install fonttools brotli）
+node tools/shot.mjs 行程 --day 2026-11-21 --fs 標準,特大 --theme 白天,夜間   # 360px 截圖，印出圖片路徑；需 Node 22 與 Chrome
+sh tools/merge-dev.sh --dry-run 分支名稱   # 合回 dev 前先預覽
 ```
+
+改畫面後用 `tools/shot.mjs` 確認，不要另外寫截圖用的頁面；其他選項（`--open 設定`、`--scroll`、`--eval`、`--height`）見檔案開頭。
 
 若 npm 可用，也可用 `npm run dev`、`npm run check`、`npm test`，不需要安裝套件。修改其他 JavaScript 檔時，也對該檔執行 `node --check`。
 
@@ -57,8 +72,8 @@ node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.tes
 - 首頁目的地、天氣座標與匯率目前仍有固定值；後續處理這些功能時，改讀旅行設定，不新增另一份互相矛盾的設定。未被要求時，不順便重寫整個資料架構。
 - 新增資料欄位或檔案要同步更新驗證、`data/FORMAT.md` 與 README；改完資料要跑資料測試。
 - **路徑一律使用相對路徑**，例如 `./data/itinerary.jsonl`，不要以 `/` 開頭；須能在 GitHub Pages 的 `/DB-travel-web/` 子路徑運作。
-- **不要新增 CDN 相依**。新增的 JS、CSS、圖示與字型放在 repo。現有 Google Fonts 是待處理的離線缺口，未處理前不可宣稱完整離線可用。公開天氣、匯率 API 可保留，但失敗必須有清楚的提示與重試。
-- Service Worker 已導入（`sw.js`）：集中管理 `CORE_FILES` 與網路優先清單，HTML、旅行與資訊資料網路優先，其他本機資源快取優先；新增檔案同步加入清單，修改快取資源時遞增 `VERSION`。各 commit 預覽路徑的快取分開，不能用舊快取判定新版正確。
+- **不要新增 CDN 相依**。新增的 JS、CSS、圖示與字型放在 repo。字型使用 `fonts/` 內 Noto Sans TC／Noto Serif TC 子集（SIL OFL，來源見 `fonts/LICENSE.md`），不要重新引入 Google Fonts。資料、`index.html` 或 JS 字串加了新字後跑 `node tools/check-font.cjs`，缺字就重新產生子集並更新 `sw.js` 的 `CORE_FILES`；天氣、匯率與地圖底圖仍需網路，不可宣稱完整離線可用。公開天氣、匯率 API 可保留，但失敗必須有清楚的提示與重試。
+- Service Worker 已導入（`sw.js`）：集中管理 `CORE_FILES` 與網路優先清單，HTML、旅行與資訊資料網路優先，其他本機資源快取優先；新增檔案同步加入清單。`VERSION` 由合併腳本跟版本號一起設定。各 commit 預覽路徑的快取分開，不能用舊快取判定新版正確。
 - **每頁頂端留白集中使用 `var(--top-gap)`**。處理安全區域時集中定義，避免各頁各自寫 `env(safe-area-inset-top) + Npx`。新增吸頂元件需確認 iPhone Safari 與主畫面模式不遮住內容。
 - **顏色使用 CSS 變數**；導入夜間模式時，`:root` 與 `:root[data-theme="night"]` 都定義對應變數。修改既有區塊時逐步移除該區硬編碼顏色。
 - 日夜模式、字級、加入主畫面等設定集中在同一個設定 sheet，不要散落各頁。尚未有設定入口時先建立共用入口。
@@ -101,11 +116,11 @@ node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.tes
 
 ## 改完怎麼驗證
 
-1. JavaScript 語法檢查與現有測試通過；新功能需要的驗證依實際風險補充。
-2. 本機伺服器開啟，在 360px 寬度檢查首頁、行程、精選店家、優惠與 hash 上一頁導覽。
+1. JavaScript 語法檢查與測試通過；改過 `data/` 或同步試算表後執行 `node tools/check-data.cjs` 與 `node tools/check-font.cjs`；新功能需要的驗證依實際風險補充。
+2. 在 360px 寬度檢查首頁、行程、精選店家、優惠與 hash 上一頁導覽；畫面用 `tools/shot.mjs` 截圖確認。
 3. 檢查清單勾選保存、日期切換、地圖連結、優惠原圖與放大視窗；新功能以實際操作驗證。
-4. 導入日夜模式與字級設定後，檢查兩套主題及「特大」字級；不得把尚未實作的功能回報為已測試。
-5. API 失敗與無網路時有明確提示，快取標示正確；導入 PWA 後再驗證離線重新整理與更新流程。
+4. 檢查兩套主題及「特大」字級：`node tools/shot.mjs <頁面> --fs 標準,特大 --theme 白天,夜間` 一次截四種；不得把尚未實作的功能回報為已測試。
+5. API 失敗與無網路時有明確提示，快取標示正確；驗證離線重新整理與更新流程。
 6. iPhone Safari 確認頂端安全區、底部分頁列與 sheet；沒有實機時明確說明未驗證。
 
 ## 寫作慣例

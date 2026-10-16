@@ -6,3 +6,7 @@ node_modules/
 
 # 字型原始檔（不進 repo）
 tools/.font-src/
+
+# 個人設定
+CLAUDE.local.md
+.claude/settings.local.json

@@ -18,8 +18,13 @@ jobs:
           node-version: '22'
       - name: 檢查 JavaScript 語法
         run: |
-          for file in app.js trip-data.js itinerary.js shops.js visits.js maps.js coupons.js home-preview.js icons.js settings.js sw.js dev-server.cjs; do
+          for file in app.js trip-data.js itinerary.js shops.js visits.js maps.js coupons.js home-preview.js icons.js settings.js sw.js dev-server.cjs tools/check-data.cjs tools/check-font.cjs tools/shot.mjs; do
             node --check "$file"
           done
+          sh -n tools/merge-dev.sh
       - name: 執行測試
-        run: node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs
+        run: node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs check-data.test.cjs scripts/sheet-data.test.cjs
+      - name: 檢查資料
+        run: node tools/check-data.cjs
+      - name: 檢查字型缺字
+        run: node tools/check-font.cjs

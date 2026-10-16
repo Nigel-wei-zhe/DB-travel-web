@@ -14,13 +14,13 @@
 
 網站入口為根目錄的 `index.html`；資源採相對路徑，適用 GitHub Pages 專案子路徑。導覽使用 hash，不依賴伺服器路由。可將根目錄作為 GitHub Pages 發布來源，不需要建置步驟。`dev-server.cjs` 僅供本機開發。
 
-目前旅行行程為示範資料。每日行程頁已接入 JSONL，包含行前檢查表、日期切換與地圖連結；精選店家使用 `data/shops.jsonl` 定義區域群組及店家類型標籤。優惠頁由 `data/coupons.jsonl` 載入圖片，支援放大與開啟原圖；圖檔放在 `assets/coupons/`。首頁天氣與匯率已使用公開 API。字體從 Google Fonts 載入，無網路時使用系統字體。
+目前旅行行程為示範資料。每日行程頁已接入 JSONL，包含行前檢查表、日期切換與地圖連結；精選店家使用 `data/shops.jsonl` 定義區域群組及店家類型標籤。優惠頁由 `data/coupons.jsonl` 載入圖片，支援放大與開啟原圖；圖檔放在 `assets/coupons/`。首頁天氣與匯率已使用公開 API。字型使用 `fonts/` 內的 Noto Sans TC／Noto Serif TC 子集，不依賴 Google Fonts。
 
 ## 每日行程與行前清單
 
 替換 `data/itinerary.jsonl` 與 `data/checklist.jsonl` 後重新整理即可。欄位與規則詳見 [資料格式](data/FORMAT.md)。檢查表勾選保存在當前裝置，依旅行 ID 分開。首頁目的地、標題、副標題、日期與天氣讀取 trip 設定。目前主視覺為福岡秋日旅行，既有東京行程與虛構店家仍保留為示範，尚未替換為福岡行程。旅行與項目 ID 保留以延用本機紀錄。
 
-若要先在 Google 試算表填寫行程與精選店家，可使用 [中文 CSV 範本與同步說明](templates/README.md)。推送到 `dev` 時，GitHub Action 會讀取試算表、驗證並更新 JSONL；試算表編輯本身不會觸發同步。
+若要先在 Google 試算表填寫行程與精選店家，可使用 [中文 CSV 範本與同步說明](templates/README.md)。到 GitHub Actions 手動執行「同步 Google 試算表」：讀取試算表、驗證後把更新推到 `sync-sheet` 預覽分支，不會直接改 `dev`，也不會自動部署。執行結果頁有變動統計與預覽連結，確認後用 `sh tools/merge-dev.sh sync-sheet` 合回。行程或店家一次刪除超過 10 筆，或刪除至少 3 筆且超過既有筆數 20% 時預設拒絕，確認試算表正確再勾選 `allow_delete` 重跑。
 
 驗證：`node --test --test-isolation=none app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs`。
 
@@ -28,7 +28,8 @@
 
 - 以 `manifest.webmanifest` 與 `sw.js` 支援加入主畫面。Service Worker 需 HTTPS 或 localhost，不能用 `file://`。
 - 離線可用：頁面、樣式、程式、地圖程式庫、行程／清單／店家／優惠資料、優惠券圖片、蓋章圖。HTML 與 `data/` 網路優先（4 秒逾時退回快取），其他本機檔案快取優先；跨網域請求不經快取。
-- 有限制：Google Fonts 仍走網路，離線時改用系統字體；天氣、匯率需網路（匯率沿用 localStorage 快取並標示時間）；地圖底圖圖磚需網路，離線只看得到圖釘。因此不宣稱完整離線可用。
+- 字型已內建並由 Service Worker 快取，離線可正常顯示。
+- 有限制：天氣、匯率需網路（匯率沿用 localStorage 快取並標示時間）；地圖底圖圖磚需網路，離線只看得到圖釘。因此不宣稱完整離線可用。
 - 快取名稱含 `VERSION` 與網站路徑，各 commit 預覽路徑互不影響。改動任何快取資源或新增檔案時，要同步更新 `CORE_FILES` 並遞增 `sw.js` 的 `VERSION`。
 - 偵測到新版本時畫面顯示「有新版本」與「更新」，按下才重新載入。
 
@@ -66,3 +67,12 @@ Leaflet 1.9.4 放在 `vendor/leaflet/`，採 BSD-2-Clause，授權檔同目錄�
 頁首右上角「設定」開啟設定 sheet，可調整字級（標準／大／特大）與日夜模式（跟隨系統／白天／夜間），設定保存在這台裝置的 localStorage（`tabi-settings-v1`），無法保存時仍可使用，但關閉網頁後恢復預設。`settings.js` 另提供共用 sheet 開關（`TabiSheet.openSheet()`／`closeSheet()`／`bindSheet()`）：背景鎖捲動、點背景／關閉按鈕／Esc 皆可關閉，關閉後回到原捲動位置與觸發按鈕。「加入主畫面」區塊已預留，尚未實作。
 
 版本號統一在 `app.js` 的 `APP_VERSION` 設定，依「日期.當天第幾次」於合併至 `dev` 時更新，設定頁底部可查看目前版本與授權資訊。
+
+## 開發工具
+
+需要 Node 22 以上與 git；不需要安裝套件。
+
+- 合併：`sh tools/merge-dev.sh 分支名稱…` 一次完成 rebase、檢查、版本號、push、刪分支與部署確認；`--dry-run` 只預覽，`--no-wait` 不等部署。若已安裝並登入 `gh`，會等 GitHub Pages 部署完成再回報。
+- 截圖：`node tools/shot.mjs 行程 --day 2026-11-21 --fs 標準,特大 --theme 白天,夜間`，需要 Chrome（或用環境變數 `CHROME` 指定路徑）。頁面可選首頁、行程、店家、優惠、地圖；另有 `--open 設定`、`--scroll`、`--height`、`--eval`、`--out`。圖片預設在系統暫存資料夾的 `tabi-shots/`。
+- 資料檢查：`node tools/check-data.cjs`。檢查格式、重複 ID、優惠券圖檔是否存在、路徑是否為相對路徑，並提醒空的行程日、缺座標項目、日期缺漏與空店家群組；錯誤會標明檔名與行號。
+- 字型：`node tools/check-font.cjs` 檢查缺字；缺字時執行 `python3 tools/subset-font.py`（需 `pip install fonttools brotli`）重新產生子集。字型為 Noto Sans TC 與 Noto Serif TC 的子集，授權為 SIL OFL 1.1，見 `fonts/LICENSE.md`。
