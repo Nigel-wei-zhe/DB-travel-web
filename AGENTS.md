@@ -32,9 +32,11 @@
 - `data/coupons.jsonl`、`assets/coupons/`：優惠券資料與原圖。
 - `data/FORMAT.md`：資料欄位、格式與範例。
 - `dev-server.cjs`：本機靜態伺服器。
-- `app.test.cjs`、`trip-data.test.cjs`：公開 API 行為與資料驗證測試。
+- `sw.js`：Service Worker；頂端集中 `VERSION`、`CORE_FILES`、網路優先清單。
+- `manifest.webmanifest`、`icons/`：加入主畫面設定與圖示（`icon.svg`、`maskable.svg` 為 PNG 來源）。
+- `app.test.cjs`、`trip-data.test.cjs`、`sw.test.cjs`：公開 API 行為、資料驗證與離線檔案清單測試。
 
-目前沒有 Service Worker、manifest、本機字型子集、日夜模式或字級設定。以下相關規則是新增這些能力時的要求，不代表它們已存在；不要呼叫不存在的工具或函式。
+目前已有 Service Worker 與 manifest（新增檔案須加入 `CORE_FILES` 並遞增 `VERSION`）；沒有本機字型子集、日夜模式或字級設定。以下相關規則是新增這些能力時的要求，不代表它們已存在；不要呼叫不存在的工具或函式。
 
 ## 常用指令
 
@@ -43,7 +45,7 @@ node dev-server.cjs
 # 預覽：http://127.0.0.1:5173/，不要直接用 file:// 開啟
 
 node --check app.js
-node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs
+node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs
 ```
 
 若 npm 可用，也可用 `npm run dev`、`npm run check`、`npm test`，不需要安裝套件。修改其他 JavaScript 檔時，也對該檔執行 `node --check`。
@@ -55,7 +57,7 @@ node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs
 - 新增資料欄位或檔案要同步更新驗證、`data/FORMAT.md` 與 README；改完資料要跑資料測試。
 - **路徑一律使用相對路徑**，例如 `./data/itinerary.jsonl`，不要以 `/` 開頭；須能在 GitHub Pages 的 `/DB-travel-web/` 子路徑運作。
 - **不要新增 CDN 相依**。新增的 JS、CSS、圖示與字型放在 repo。現有 Google Fonts 是待處理的離線缺口，未處理前不可宣稱完整離線可用。公開天氣、匯率 API 可保留，但失敗必須有清楚的提示與重試。
-- 未來導入 Service Worker 時，集中管理 `CORE_FILES` 與網路優先清單，HTML、旅行與資訊資料網路優先，其他本機資源快取優先；新增檔案同步加入清單，修改快取資源時遞增 `VERSION`。各 commit 預覽路徑的快取分開，不能用舊快取判定新版正確。
+- Service Worker 已導入（`sw.js`）：集中管理 `CORE_FILES` 與網路優先清單，HTML、旅行與資訊資料網路優先，其他本機資源快取優先；新增檔案同步加入清單，修改快取資源時遞增 `VERSION`。各 commit 預覽路徑的快取分開，不能用舊快取判定新版正確。
 - **每頁頂端留白集中使用 `var(--top-gap)`**。處理安全區域時集中定義，避免各頁各自寫 `env(safe-area-inset-top) + Npx`。新增吸頂元件需確認 iPhone Safari 與主畫面模式不遮住內容。
 - **顏色使用 CSS 變數**；導入夜間模式時，`:root` 與 `:root[data-theme="night"]` 都定義對應變數。修改既有區塊時逐步移除該區硬編碼顏色。
 - 日夜模式、字級、加入主畫面等設定集中在同一個設定 sheet，不要散落各頁。尚未有設定入口時先建立共用入口。

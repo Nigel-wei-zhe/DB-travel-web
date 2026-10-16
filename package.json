@@ -2,5 +2,5 @@
   "name": "little-travel-journal",
   "version": "0.1.0",
   "private": true,
-  "scripts": { "dev": "node dev-server.cjs", "check": "node --check app.js", "test": "node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs" }
+  "scripts": { "dev": "node dev-server.cjs", "check": "node --check app.js && node --check sw.js", "test": "node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs sw.test.cjs" }
 }

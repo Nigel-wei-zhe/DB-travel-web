@@ -438,3 +438,8 @@ svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; 
 #home-preview > .data-note, #home-preview > .load-error { font-size: calc(15px * var(--fs, 1)); line-height: 1.6; margin: 16px 0 0; }
 .preview-more { display: flex; align-items: center; min-height: 48px; margin-top: 4px; color: var(--brick); font-size: calc(15px * var(--fs, 1)); font-weight: 500; }
 .preview-more:focus-visible { outline: 2px solid var(--forest); outline-offset: 2px; }
+
+/* PWA 更新提示 */
+.update-notice { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(88px + env(safe-area-inset-bottom)); z-index: 30; width: calc(100% - 32px); max-width: 448px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 16px; border-radius: 14px; background: var(--forest); color: var(--surface); font-size: calc(16px * var(--fs, 1)); box-shadow: 0 6px 24px #0003; }
+.update-notice button { min-height: 48px; min-width: 88px; padding: 0 20px; border: 0; border-radius: 10px; background: var(--surface); color: var(--forest); font-size: inherit; font-weight: 700; cursor: pointer; touch-action: manipulation; }
+.update-notice button:disabled { opacity: .7; }
