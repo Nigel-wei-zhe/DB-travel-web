@@ -37,3 +37,14 @@ test('data, assets and manifest icons are covered by CORE_FILES', () => {
   }
   assert.ok(NETWORK_FIRST.includes('./data/') && NETWORK_FIRST.includes('./index.html'));
 });
+
+test('fonts referenced by @font-face in styles.css are in CORE_FILES', () => {
+  const css = fs.readFileSync('styles.css', 'utf8');
+  assert.ok(!/fonts\.googleapis|fonts\.gstatic|@import/.test(css), 'styles.css 不可再載入外部字型');
+  const urls = [...css.matchAll(/@font-face\s*{[^}]*?url\(['"]?([^'")]+)['"]?\)/g)].map(match => match[1]);
+  assert.ok(urls.length >= 2);
+  for (const url of urls) {
+    assert.ok(url.startsWith('./fonts/'), `${url} 必須是 ./fonts/ 相對路徑`);
+    assert.ok(CORE_FILES.includes(url), `${url} 未列入 CORE_FILES`);
+  }
+});

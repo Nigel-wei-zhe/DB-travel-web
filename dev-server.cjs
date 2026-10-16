@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = __dirname;
 const PORT = Number(process.env.PORT) || 5173;
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jsonl': 'text/plain; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.webmanifest': 'application/manifest+json' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jsonl': 'text/plain; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.webmanifest': 'application/manifest+json', '.woff2': 'font/woff2' };
 http.createServer((req, res) => {
   let pathname;
   try { pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname); } catch { res.writeHead(400); return res.end(); }
@@ -13,8 +13,9 @@ http.createServer((req, res) => {
   allowed.push(path.join('assets', 'stamps', 'kuromi-maple.png'), 'visits.js', 'maps.js', path.join('vendor', 'leaflet', 'leaflet.js'), path.join('vendor', 'leaflet', 'leaflet.css'), 'coupons.js', path.join('data', 'coupons.jsonl'), 'sw.js', 'manifest.webmanifest');
   const pwaIcon = path.dirname(relative) === 'icons' && ['.png', '.svg'].includes(path.extname(relative).toLowerCase());
   allowed.push('settings.js', 'home-preview.js');
+  const fontFile = path.dirname(relative) === 'fonts' && path.extname(relative).toLowerCase() === '.woff2';
   const couponImage = path.dirname(relative) === path.join('assets', 'coupons') && ['.svg', '.png', '.jpg', '.jpeg', '.webp', '.gif'].includes(path.extname(relative).toLowerCase());
-  if (relative.startsWith('..') || path.isAbsolute(relative) || (!allowed.includes(relative) && !couponImage && !pwaIcon)) { res.writeHead(404); return res.end('Not found'); }
+  if (relative.startsWith('..') || path.isAbsolute(relative) || (!allowed.includes(relative) && !couponImage && !pwaIcon && !fontFile)) { res.writeHead(404); return res.end('Not found'); }
   fs.readFile(target, (error, data) => {
     if (error) { res.writeHead(404); return res.end('Not found'); }
     res.writeHead(200, { 'Content-Type': types[path.extname(target)], 'Cache-Control': 'no-store' });
