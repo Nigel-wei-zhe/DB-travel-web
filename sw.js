@@ -9,6 +9,7 @@ const CORE_FILES = [
   './icons.js',
   './trip-data.js',
   './app.js',
+  './settings.js',
   './home-preview.js',
   './visits.js',
   './itinerary.js',

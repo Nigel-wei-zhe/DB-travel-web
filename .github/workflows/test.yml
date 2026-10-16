@@ -18,7 +18,7 @@ jobs:
           node-version: '22'
       - name: 檢查 JavaScript 語法
         run: |
-          for file in app.js trip-data.js itinerary.js shops.js visits.js maps.js coupons.js home-preview.js icons.js sw.js dev-server.cjs; do
+          for file in app.js trip-data.js itinerary.js shops.js visits.js maps.js coupons.js home-preview.js icons.js settings.js sw.js dev-server.cjs; do
             node --check "$file"
           done
       - name: 執行測試
