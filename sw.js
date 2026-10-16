@@ -1,5 +1,5 @@
 // 旅日手帖 Service Worker。改動任何快取資源時，請遞增 VERSION。
-const VERSION = '1';
+const VERSION = '2';
 
 // 離線需要的本機檔案，一律用相對路徑；新增檔案要同步加入。
 const CORE_FILES = [
@@ -18,6 +18,8 @@ const CORE_FILES = [
   './maps.js',
   './vendor/leaflet/leaflet.js',
   './vendor/leaflet/leaflet.css',
+  './fonts/NotoSansTC-subset.woff2',
+  './fonts/NotoSerifTC-subset.woff2',
   './data/itinerary.jsonl',
   './data/checklist.jsonl',
   './data/shops.jsonl',
