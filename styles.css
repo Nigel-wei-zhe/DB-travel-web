@@ -273,7 +273,7 @@ svg.live-weather-icon { width: 96px; height: 80px; }
 .coupon-card:nth-child(3n) { border-top-color: var(--coffee); }
 #coupon-close, .back-home { background: var(--brick); color: var(--on-accent); }
 .data-error, .load-error, .flower, .title-dot { color: var(--brick); }
-.section-heading > a, .timeline a, .stop-map, #coupon-original, .data-note a, .credits a { color: var(--brick); }
+.section-heading > a, .timeline a, .stop-map, #coupon-original, .data-note a, .credits-text a { color: var(--brick); }
 #home-page .exchange .converter label, #home-page .exchange .converted { border-color: var(--line); }
 #home-page .exchange .converter input, #home-page .exchange .converter label > span { color: var(--coffee); }
 #home-page .exchange .converter output, #home-page .exchange .converted > span { color: var(--forest); }
@@ -523,6 +523,4 @@ html.sheet-locked { overflow: hidden; }
   .sheet-header { padding-left: 16px; }
 }
 
-.credits { margin-top: 0; font-size: calc(15px * var(--fs, 1)); letter-spacing: normal; line-height: 1.7; }
-.credits summary { display: flex; align-items: center; min-height: 48px; padding: 0; font-size: calc(17px * var(--fs, 1)); font-weight: 600; color: var(--forest); }
-.credits-text { margin: 4px 0 0; color: var(--coffee); }
+.credits-text { margin: 0; font-size: calc(15px * var(--fs, 1)); line-height: 1.7; color: var(--coffee); }
