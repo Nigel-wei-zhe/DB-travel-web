@@ -488,7 +488,7 @@ svg.live-weather-icon { color: var(--forest); stroke: currentColor; fill: none; 
 .map-pin.pin-stay { background: var(--cat-stay); }
 .map-pin.pin-other { background: var(--cat-other); }
 
-.settings-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 12px; flex-shrink: 0; border: 1.5px solid var(--forest); border-radius: 12px; background: var(--surface); color: var(--forest); font-size: calc(15px * var(--fs, 1)); font-weight: 500; cursor: pointer; }
+.settings-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 44px; height: 44px; padding: 0; flex-shrink: 0; border: 1.5px solid var(--forest); border-radius: 12px; background: var(--surface); color: var(--forest); font-size: calc(15px * var(--fs, 1)); font-weight: 500; cursor: pointer; }
 .settings-button svg { width: 22px; height: 22px; flex-shrink: 0; }
 
 html.sheet-locked { overflow: hidden; }
@@ -518,7 +518,10 @@ html.sheet-locked { overflow: hidden; }
   .sheet::backdrop, .sheet-panel { transition: none; }
 }
 @media (max-width: 360px) {
-  .settings-button { padding: 0 10px; }
   .sheet-scroll { padding-inline: 16px; }
   .sheet-header { padding-left: 16px; }
 }
+
+.credits { margin-top: 0; font-size: calc(15px * var(--fs, 1)); letter-spacing: normal; line-height: 1.7; }
+.credits summary { display: flex; align-items: center; min-height: 48px; padding: 0; font-size: calc(17px * var(--fs, 1)); font-weight: 600; color: var(--forest); }
+.credits-text { margin: 4px 0 0; color: var(--coffee); }

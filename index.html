@@ -61,7 +61,7 @@
     <symbol id="check-hand" viewBox="0 0 24 24"><path d="M4.8 12.8q2.3 2 4.6 4.6Q13.4 11 19.4 6.2"/></symbol>
   </defs></svg>
   <div class="app-shell">
-    <header class="brand"><a href="#home" aria-label="旅日手帖首頁"><span class="brand-mark">旅</span> 旅日手帖<span class="brand-en">tabi journal</span></a><button type="button" class="settings-button" data-open-settings aria-haspopup="dialog" aria-controls="settings-sheet"><svg aria-hidden="true"><use href="#settings-hand"/></svg><span>設定</span></button></header>
+    <header class="brand"><a href="#home" aria-label="旅日手帖首頁"><span class="brand-mark">旅</span> 旅日手帖<span class="brand-en">tabi journal</span></a><button type="button" class="settings-button" aria-label="設定" data-open-settings aria-haspopup="dialog" aria-controls="settings-sheet"><svg aria-hidden="true"><use href="#settings-hand"/></svg></button></header>
     <main>
       <div id="home-page" class="page">
         <section class="cover" aria-labelledby="trip-title">
@@ -166,7 +166,6 @@
         </section>
         <div class="section-heading itinerary-heading"><h2>行程預覽</h2><a id="home-preview-link" href="#itinerary">完整行程 <svg><use href="#arrow"/></svg></a></div>
         <section id="home-preview" class="itinerary card" aria-label="行程預覽" aria-live="polite"><p class="data-note">正在載入行程…</p></section>
-        <footer class="page-footer"><p class="app-version">版本 <span id="app-version"></span></p><details class="credits"><summary>授權資訊</summary><p>Weather by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><br>天氣說明已轉為中文、溫度取整數。<br>匯率由 <a href="https://frankfurter.dev/" target="_blank" rel="noopener noreferrer">Frankfurter</a> 提供，每日參考匯率，非銀行報價。</p></details></footer>
       </div>
       <section id="itinerary-page" class="page" aria-label="每日行程" hidden>
         <div id="date-filters" class="date-filters" role="group" aria-label="選擇行前或旅行日期"></div>
@@ -213,6 +212,9 @@
         <section id="settings-install" class="settings-section" aria-labelledby="settings-install-title" hidden>
           <h3 id="settings-install-title">加入主畫面</h3>
           <div id="settings-install-content"></div>
+        </section>
+        <section class="settings-section" aria-label="授權資訊">
+          <details class="credits"><summary>授權資訊</summary><p class="credits-text">Weather by <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><br>天氣說明已轉為中文、溫度取整數。<br>匯率由 <a href="https://frankfurter.dev/" target="_blank" rel="noopener noreferrer">Frankfurter</a> 提供，每日參考匯率，非銀行報價。</p></details>
         </section>
         <p id="settings-version" class="settings-version"></p>
       </div>

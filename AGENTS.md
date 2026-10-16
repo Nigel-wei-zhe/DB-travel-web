@@ -11,7 +11,7 @@
 - **小功能先開功能分支**：從 `dev` 開 `feat-<名稱>`（不用 `/`）。push 到 `origin`、確認後再合回 `dev`，避免多個功能互相覆蓋。
 - 儲存庫已依使用者授權公開。每次 push 功能後提供含完整 commit SHA 的手機預覽網址：`https://raw.githack.com/Nigel-wei-zhe/DB-travel-web/<commit sha>/index.html`。githack 只供個人預覽，不當正式網址分享；若未來改為私人，需改提供可存取的預覽方式，不得擅自再次公開。
 - GitHub Pages 採 `dev` 分支根目錄（Deploy from a branch），網址為 `https://nigel-wei-zhe.github.io/DB-travel-web/`。push 到 `origin/dev` 會觸發部署；需確認部署成功，不能只憑 push 成功判定網站已更新。
-- **合回 `dev` 時更新版本號**：採 `日期.當天第幾次`，例如 `2026.10.10.2`。版本號以 `app.js` 的 `APP_VERSION` 為單一來源，顯示於首頁底部；每次合併均更新，讓使用者能確認版本。設定 sheet 底部也讀取同一來源顯示版本。
+- **合回 `dev` 時更新版本號**：採 `日期.當天第幾次`，例如 `2026.10.10.2`。版本號以 `app.js` 的 `APP_VERSION` 為單一來源，顯示於設定 sheet 底部；每次合併均更新，讓使用者能確認版本。
 - **合回 `dev` 後清掉功能分支**：用 `git branch --merged dev` 確認完整合併後，再刪除本機與 `origin` 的對應功能分支，保留 `main`、`dev`。不要刪除他人或尚未合併的工作。
 - 發布穩定版本前先確認 `main` 最新狀態，在 `dev` 解決衝突並驗證，再同步至 `main`。
 
