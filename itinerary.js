@@ -99,7 +99,7 @@
       row.append(el('time', '', item.time || '彈性'));
       const card = el('article', 'stop-card card');
       const stopHeading = el('div', 'stop-heading');
-      if (item.category) stopHeading.append(el('span', 'stop-category', categoryNames[item.category]));
+      if (item.category) stopHeading.append(el('span', `stop-category cat-${item.category}`, categoryNames[item.category]));
       stopHeading.append(el('h3', '', item.title));
       card.append(stopHeading);
       if (item.note) card.append(el('p', '', item.note));

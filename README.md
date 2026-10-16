@@ -53,4 +53,8 @@ Leaflet 1.9.4 放在 `vendor/leaflet/`，採 BSD-2-Clause，授權檔同目錄�
 
 每日行程卡片可蓋章、取消蓋章，完成圖案改用使用者提供的酷洛米原圖編輯：去除身體與背景，保留頭下方的尖角花邊與粉紅圓球，加入楓葉髮飾，蓋章後順時針旋轉 15 度，存放於 `assets/stamps/kuromi-maple.png`。`visits.js` 依旅程 ID 與行程項目 ID 將紀錄保存在 localStorage，與行前清單分開；無法保存時顯示提示。地圖以外框及「已蓋章」文字標示完成地點。
 
+## 設定
+
+頁首右上角「設定」開啟設定 sheet，可調整字級（標準／大／特大）與日夜模式（跟隨系統／白天／夜間），設定保存在這台裝置的 localStorage（`tabi-settings-v1`），無法保存時仍可使用，但關閉網頁後恢復預設。`settings.js` 另提供共用 sheet 開關（`TabiSheet.openSheet()`／`closeSheet()`／`bindSheet()`）：背景鎖捲動、點背景／關閉按鈕／Esc 皆可關閉，關閉後回到原捲動位置與觸發按鈕。「加入主畫面」區塊已預留，尚未實作。
+
 版本號統一在 `app.js` 的 `APP_VERSION` 設定，依「日期.當天第幾次」於合併至 `dev` 時更新，首頁底部可查看目前版本。
