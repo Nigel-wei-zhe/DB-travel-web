@@ -60,6 +60,35 @@ test('CSV 可處理引號、逗號和儲存格內換行', () => {
   assert.throws(() => parseCsv('"未結束'), /引號未結束/);
 });
 
+test('countChanges 統計行程項目與店家的新增、修改、刪除', () => {
+  const { countChanges, deletionProblems } = require('./sheet-data.cjs');
+  const day = items => JSON.stringify({ type: 'day', date: '2026-11-12', items }) + '\n';
+  const group = shops => JSON.stringify({ id: 'g', title: 'G', shops }) + '\n';
+  const before = {
+    itinerary: day([{ id: 'a', title: 'A' }, { id: 'b', title: 'B' }, { id: 'c', title: 'C' }]),
+    shops: group([{ id: 's1', name: 'S1' }, { id: 's2', name: 'S2' }]),
+  };
+  const after = {
+    itinerary: day([{ id: 'a', title: 'A2' }, { id: 'c', title: 'C' }, { id: 'd', title: 'D' }]),
+    shops: group([{ id: 's1', name: 'S1' }]),
+  };
+  const counts = countChanges(before, after);
+  assert.deepEqual(counts.items, { before: 3, after: 3, added: 1, changed: 1, removed: 1 });
+  assert.deepEqual(counts.shops, { before: 2, after: 1, added: 0, changed: 0, removed: 1 });
+  assert.deepEqual(deletionProblems(counts), []);
+  assert.deepEqual(countChanges(before, before).items, { before: 3, after: 3, added: 0, changed: 0, removed: 0 });
+  assert.equal(countChanges({ itinerary: '', shops: '' }, before).items.added, 3);
+});
+
+test('deletionProblems 依筆數與比例判斷大量刪除', () => {
+  const { deletionProblems } = require('./sheet-data.cjs');
+  const c = (before, removed) => ({ before, after: before - removed, added: 0, changed: 0, removed });
+  assert.equal(deletionProblems({ items: c(100, 10), shops: c(5, 1) }).length, 0);
+  assert.equal(deletionProblems({ items: c(100, 11), shops: c(5, 0) }).length, 1);
+  assert.equal(deletionProblems({ items: c(10, 3), shops: c(10, 2) }).length, 1);
+  assert.equal(deletionProblems({ items: c(100, 0), shops: c(10, 3) }).length, 1);
+});
+
 test('只接受 Google 試算表網址', () => {
   assert.equal(spreadsheetIdFromUrl('https://docs.google.com/spreadsheets/d/abc-123_X/edit#gid=0'), 'abc-123_X');
   assert.throws(() => spreadsheetIdFromUrl('https://example.com/spreadsheets/d/abc/edit'), /不是有效/);

@@ -142,4 +142,58 @@ function convertSheets(sheets) {
   return { itinerary, shops: shopData };
 }
 
-module.exports = { HEADERS, convertSheets };
+// 解析 itinerary.jsonl／shops.jsonl 文字，取出以 ID 為鍵的行程項目與店家；內容用 JSON 字串比較。
+function indexData(itineraryText, shopsText) {
+  const items = new Map();
+  const shops = new Map();
+  for (const line of String(itineraryText || '').split(/\r?\n/)) {
+    if (!line.trim()) continue;
+    const day = JSON.parse(line);
+    if (day.type !== 'day') continue;
+    for (const item of day.items || []) items.set(item.id, JSON.stringify({ date: day.date, ...item }));
+  }
+  for (const line of String(shopsText || '').split(/\r?\n/)) {
+    if (!line.trim()) continue;
+    const group = JSON.parse(line);
+    for (const shop of group.shops || []) shops.set(shop.id, JSON.stringify({ group: group.id, ...shop }));
+  }
+  return { items, shops };
+}
+
+function countMap(before, after) {
+  let added = 0, changed = 0, removed = 0;
+  for (const [id, value] of after) {
+    if (!before.has(id)) added++;
+    else if (before.get(id) !== value) changed++;
+  }
+  for (const id of before.keys()) if (!after.has(id)) removed++;
+  return { before: before.size, after: after.size, added, changed, removed };
+}
+
+// 比較同步前後的行程項目與店家筆數：新增、修改、刪除。
+function countChanges(before, after) {
+  const a = indexData(before.itinerary, before.shops);
+  const b = indexData(after.itinerary, after.shops);
+  return { items: countMap(a.items, b.items), shops: countMap(a.shops, b.shops) };
+}
+
+// 刪除量門檻：行程項目與店家各自計算。
+// 刪除超過 10 筆，或刪除至少 3 筆且超過既有筆數的 20%，視為大量刪除。
+// 「至少 3 筆」是避免小清單刪 1～2 筆就被擋下。
+const DELETE_LIMIT = 10;
+const DELETE_RATIO = 0.2;
+const DELETE_MIN_FOR_RATIO = 3;
+
+function deletionProblems(counts) {
+  const names = { items: '行程項目', shops: '店家' };
+  const problems = [];
+  for (const key of Object.keys(names)) {
+    const { before, removed } = counts[key];
+    if (removed > DELETE_LIMIT || (removed >= DELETE_MIN_FOR_RATIO && removed > before * DELETE_RATIO)) {
+      problems.push(`${names[key]}將刪除 ${removed} 筆（原有 ${before} 筆）`);
+    }
+  }
+  return problems;
+}
+
+module.exports = { HEADERS, convertSheets, countChanges, deletionProblems };
