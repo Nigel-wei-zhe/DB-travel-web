@@ -40,7 +40,7 @@ async function setup({ fail = false, invalid = false, cached = false, storageBlo
     fetch: async url => {
       if (url === './data/itinerary.jsonl') {
         if (configFailOnce && configRequests++ === 0) throw Error('offline');
-        return { ok: true, text: async () => fs.readFileSync('data/itinerary.jsonl', 'utf8') };
+        return { ok: true, text: async () => fs.readFileSync(`${__dirname}/test-fixtures/itinerary.jsonl`, 'utf8') };
       }
       urls.push(url);
       requests++;
@@ -98,10 +98,10 @@ test('fresh cache avoids network requests; manual refresh bypasses cache', async
   assert.equal(requests(), 3);
 });
 
-test('home destination config sets Fukuoka coordinates and avoids Tokyo weather cache', async () => {
+test('home destination config sets destination coordinates and avoids Tokyo weather cache', async () => {
   const { node, urls } = await setup();
-  assert.equal(node('#trip-title').textContent, '福岡秋日手帖');
-  assert.equal(node('#weather-place').textContent, '福岡的天氣');
+  assert.equal(node('#trip-title').textContent, '測試旅行');
+  assert.equal(node('#weather-place').textContent, '測試市的天氣');
   assert.equal(node('#weather-temp').textContent, 18);
   const url = new URL(urls.find(url => url.includes('open-meteo')));
   assert.equal(url.searchParams.get('latitude'), '33.5902');
@@ -114,7 +114,7 @@ test('destination loading failure can retry without fetching weather for the wro
   assert.equal(urls.some(url => url.includes('open-meteo')), false);
   assert.equal(node('#weather-refresh').disabled, false);
   await node('#weather-refresh').handlers.click();
-  assert.equal(node('#weather-place').textContent, '福岡的天氣');
+  assert.equal(node('#weather-place').textContent, '測試市的天氣');
   assert.equal(node('#weather-temp').textContent, 18);
 });
 

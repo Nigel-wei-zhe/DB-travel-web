@@ -43,7 +43,7 @@ node dev-server.cjs
 # 預覽：http://127.0.0.1:5173/，不要直接用 file:// 開啟
 
 node --check app.js
-node --test --test-isolation=none app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs
+node --test app.test.cjs trip-data.test.cjs maps.test.cjs visits.test.cjs
 ```
 
 若 npm 可用，也可用 `npm run dev`、`npm run check`、`npm test`，不需要安裝套件。修改其他 JavaScript 檔時，也對該檔執行 `node --check`。

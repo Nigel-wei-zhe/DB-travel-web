@@ -30,7 +30,7 @@ async function setup({ fail = false, hash = '#map' } = {}) {
         return marker;
       }
     },
-    fetch: async () => { requests++; if (fail) throw Error('offline'); return { ok: true, text: async () => fs.readFileSync('data/itinerary.jsonl', 'utf8') }; },
+    fetch: async () => { requests++; if (fail) throw Error('offline'); return { ok: true, text: async () => fs.readFileSync(`${__dirname}/test-fixtures/itinerary.jsonl`, 'utf8') }; },
     AbortController, setTimeout, clearTimeout
   });
   vm.runInContext(fs.readFileSync('maps.js', 'utf8'), context);
@@ -42,23 +42,24 @@ test('map lazily loads and filters dates including an empty day', async () => {
   assert.equal(state.requests(), 0);
   state.context.location.hash = '#map';
   await state.events.hashchange();
-  assert.equal(state.pins().length, 8);
-  assert.match(state.node('#map-summary').textContent, /2 項未設定座標/);
+  assert.equal(state.pins().length, 5);
+  assert.match(state.node('#map-summary').textContent, /3 項未設定座標/);
   state.context.location.hash = '#map/2026-11-13';
   await state.events.hashchange();
   assert.equal(state.pins().length, 3);
-  state.context.location.hash = '#map/2026-11-15';
+  assert.match(state.node('#map-summary').textContent, /1 項未設定座標/);
+  state.context.location.hash = '#map/2026-11-14';
   await state.events.hashchange();
   assert.equal(state.pins().length, 0);
   assert.equal(state.node('#map-fit').disabled, true);
   assert.match(state.node('#map-places').children[0].textContent, /尚無行程/);
 });
 test('map deep link opens the selected place and uses encoded navigation', async () => {
-  const state = await setup({ hash: '#map/2026-11-12/day1-asakusa' });
-  const pin = state.pins().find(value => value.options.title.includes('雷門'));
+  const state = await setup({ hash: '#map/2026-11-12/t1-gate' });
+  const pin = state.pins().find(value => value.options.title.includes('測試地標'));
   assert.equal(pin.opened, true);
   assert.deepEqual(Array.from(state.focused()), [35.71111111, 139.79638889]);
-  assert.match(pin.popup.children.at(-1).href, /^https:\/\/www.google.com\/maps\/dir\/\?api=1&destination=Kaminarimon%20Tokyo$/);
+  assert.match(pin.popup.children.at(-1).href, /^https:\/\/www.google.com\/maps\/dir\/\?api=1&destination=Test%20Landmark$/);
   state.tile.handlers.tileerror();
   assert.equal(state.node('#map-retry').hidden, false);
   state.node('#map-retry').handlers.click();

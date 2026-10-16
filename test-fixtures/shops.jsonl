@@ -1,0 +1,2 @@
+{"id":"area-a","title":"測試區域","shops":[{"id":"shop-a1","name":"測試店家","tags":["咖啡","甜點"],"note":"範例備註","mapQuery":"測試店家"}]}
+{"id":"area-b","title":"空區域","shops":[]}
